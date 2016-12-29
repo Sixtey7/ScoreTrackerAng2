@@ -1,0 +1,26 @@
+<html>
+    <meta charset="UTF-8">
+    <title>Score Tracker 4000</title>
+    <script src="node_modules/es6-shim/es6-shim.min.js"></script>
+    <script src="node_modules/zone.js/dist/zone.js"></script>
+    <script src="node_modules/reflect-metadata/Reflect.js"></script>
+    <script src="node_modules/systemjs/dist/system.js"></script>
+    <script src="node_modules/rxjs/bundles/Rx.js"></script>
+
+    <script src="systemjs.config.js"></script>
+
+    <script>
+        System.import ('built/app/main')
+            .then(null, console.error.bind(console));
+    </script>
+
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+
+    <base href = "/">
+</head>
+
+<body>
+    <score-tracking-app>Loading...</score-tracking-app>
+</body>
+
+</html>
