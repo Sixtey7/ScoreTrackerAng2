@@ -1,6 +1,7 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { SingleScore } from '../../shared/shared';
 import  ScoreWidgetComponent  from '../widget/score_widget.component';
+import ScoreableComponent from '../interfaces/scoreable.component';
 
 if (typeof ScoreWidgetComponent === "undefined") {
     console.log('UNDEFINED!!!');
@@ -15,22 +16,44 @@ else {
     templateUrl: 'app/scores/single/single_score.component.html',
     directives: [ ScoreWidgetComponent ]
 })
-export default class SingleScoreComponent implements OnInit {
+export default class SingleScoreComponent extends ScoreableComponent implements OnInit {
+    @Input() multiplier: number;
+    @Input() initialValue: number;
+    @Input() name: string;
+
+    @Output() scoreUpdated: EventEmitter<number>;
+
     currentValue: number;
     backingClass: SingleScore;
-    @Output() private scoreUpdated: EventEmitter<number>;
 
     constructor() {
+        super();
+
         this.scoreUpdated = new EventEmitter();
+
+        this.currentValue = 0;
     }
     ngOnInit(): void {
-        this.backingClass = new SingleScore();
+        if (this.multiplier !== undefined) {
+            this.backingClass = new SingleScore(this.multiplier);
+        }
+        else {
+            this.backingClass = new SingleScore(1);
+        }
+        
+        this.currentValue = this.backingClass.calculateScore(this.initialValue);
+
+        //initial emit to set the current value
+        this.scoreUpdated.emit(this.currentValue);
     }
 
     valueUpdated(newValue: number): void {
         console.log('Value: ' + newValue);
         this.backingClass.setCurrNum(newValue);
 
-        this.scoreUpdated.emit(this.backingClass.getScore());
+        this.currentValue = this.backingClass.getScore();
+
+        this.scoreUpdated.emit(this.currentValue);
+
     }
 }

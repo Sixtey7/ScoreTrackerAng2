@@ -18,6 +18,7 @@ export default class ScoreWidgetComponent implements OnInit {
 
     ngOnInit(): void {
         console.log('Score Widget On Init!');
+        console.log('initial value was: ' + this.initialValue);
         this.currentValue = this.initialValue;
     }
 

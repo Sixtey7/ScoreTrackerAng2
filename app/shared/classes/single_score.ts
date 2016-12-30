@@ -5,8 +5,9 @@ export default class SingleScore implements Scoreable {
     private multiplyBy: number;
     private currNum: number;
 
-    constructor() {
-        this.multiplyBy = 3;
+    constructor(multiplyBy: number) {
+        //default the value of multiplyBy
+        this.multiplyBy = multiplyBy;
     }
 
     setCurrNum(value: number): void {
@@ -20,6 +21,10 @@ export default class SingleScore implements Scoreable {
 
     getScore(): number {
         return this.multiplyBy * this.currNum;
+    }
+
+    setMultipleBy(value: number): void {
+        this.multiplyBy = value;
     }
 
 }
