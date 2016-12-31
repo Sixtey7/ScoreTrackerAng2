@@ -9,10 +9,10 @@ import {
 
 
 
-import { AgricolaPlayerComponent } from './agricola/agricola';
+import { AgricolaGameComponent } from './agricola/agricola';
 @Component({
     selector: 'score-tracking-app',
-    directives: [ROUTER_DIRECTIVES, AgricolaPlayerComponent],
+    directives: [ROUTER_DIRECTIVES, AgricolaGameComponent],
     providers: [HTTP_PROVIDERS, ROUTER_PROVIDERS],
     templateUrl: 'app/app.component.html'
 })
@@ -25,7 +25,7 @@ import { AgricolaPlayerComponent } from './agricola/agricola';
     {
         path: 'agricola',
         name: 'AgricolaScoreComponent',
-        component: AgricolaPlayerComponent,
+        component: AgricolaGameComponent,
         useAsDefault: true
     }
 ])

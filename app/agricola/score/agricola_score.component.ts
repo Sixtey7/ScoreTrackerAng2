@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { SingleScoreComponent, RangeScoreComponent } from '../../scores/scores';
 
 @Component({
@@ -11,14 +11,14 @@ export default class AgricolaScoreComponent {
     totalScore: number;
     currentValues: Map<string, number>;
 
+    @Output() totalScoreUpdated: EventEmitter<number>;
+
     constructor() {
         this.totalScore = 0;
         
         this.currentValues = new Map<string, number>();
 
-        //default all the current values
-        this.currentValues[0] = 0;
-        this.currentValues[1] = 0;
+        this.totalScoreUpdated = new EventEmitter<number>();
     }
 
     updateScore(pos: string, value: number): void {
@@ -39,5 +39,7 @@ export default class AgricolaScoreComponent {
         });
 
         this.totalScore = totalScore;
+
+        this.totalScoreUpdated.emit(this.totalScore);
     }
 }
