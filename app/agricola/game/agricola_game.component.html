@@ -3,3 +3,10 @@
         <agricola-player [playerName]="player.name" (playerScoreUpdated)="playerScoreUpdated(i, $event)"></agricola-player>
     </div>
 </span> 
+
+<!-- Button trigger modal -->
+<button type="button" (click)="promptForUsername()" class="btn btn-primary btn-fab add_new_button">
+    <i class="material-icons">add</i>
+</button>
+
+<modal (modalOutput)="addNewPlayer($event)"></modal>

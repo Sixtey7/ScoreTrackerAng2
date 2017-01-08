@@ -69,7 +69,7 @@
     </single-score>
 
     <!-- Clay Hut Rooms -->
-    <single-score [name]="'Clay_Room'"
+    <single-score [name]="'Clay Room'"
         [multiplier]="1"
         [initialValue]="0"
         (scoreUpdated)="updateScore('Clay', $event)">
@@ -104,4 +104,4 @@
     </single-score>
 
     <!-- Total -->
-    <h2 class="totalScoreEle">{{ totalScore }}</h2>
+    <div class="panel-body totalScoreEle">Total: {{ totalScore }}</div>

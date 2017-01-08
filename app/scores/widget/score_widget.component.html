@@ -1,5 +1,10 @@
-<div class="score-widget">
-    <button class="btn-danger" (click)="decreaseNumber()"><</button>
+<div class="score-widget bs-component">
+    <div>
+    <button class="btn btn-danger btn-raised" (click)="decreaseNumber()"><</button>
+    
     <input class="form-control currenValInput agricola-text" [ngModel] = "currentValue" type="number"/>
-    <button class="btn-primary" (click)="increaseNumber()">></button>
+    
+    <button class="btn btn-primary btn-raised" (click)="increaseNumber()">></button>
+
+    </div>
 </div>

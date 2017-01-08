@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { HTTP_PROVIDERS } from '@angular/http';
 import { 
     ROUTER_PROVIDERS,
@@ -6,7 +6,6 @@ import {
     ROUTER_DIRECTIVES,
     Router
 } from '@angular/router-deprecated';
-
 
 
 import { AgricolaGameComponent } from './agricola/agricola';
@@ -34,3 +33,4 @@ export default class AppComponent {
         console.log('Standing up the app...');
     }
 }
+
