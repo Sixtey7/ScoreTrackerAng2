@@ -3,26 +3,29 @@ import AgricolaPlayerComponent from '../player/agricola_player.component';
 import AgricolaPlayer from '../player/agricola_player';
 import { Modal } from '../../shared/shared';
 import PromptUsername from './prompt_username.component';
+import { Http } from '@angular/http';
+import { AgricolaService } from '../service/agricola.service';
 
 @Component({
     selector: 'agricola-game',
     directives: [ AgricolaPlayerComponent, Modal ],
+    providers: [ AgricolaService ],
     styleUrls: [ 'app/agricola/game/agricola_game.component.css' ],
     templateUrl: 'app/agricola/game/agricola_game.component.html'
 })
-export default class AgricolaGameComponent {
+export default class AgricolaGameComponent implements OnInit {
     currentPlayers: AgricolaPlayer[];
     @ViewChild(Modal) modal;
 
-    constructor() {
+    constructor(private agricolaService: AgricolaService) {
         this.currentPlayers = new Array<AgricolaPlayer>();
+    }
 
-        //TODO: Eventually remove these two sample users
-        /*let user1: AgricolaPlayer = new AgricolaPlayer("Danny");
-        this.currentPlayers.push(user1);
-
-        let user2: AgricolaPlayer = new AgricolaPlayer("Patrick");
-        this.currentPlayers.push(user2);*/
+    ngOnInit(): void {
+        this.agricolaService.beginGame()
+                    .subscribe(
+                        response => console.log('Response: ' + response),
+                        error => console.log('ERROR: ' + error));
     }
 
     playerScoreUpdated(index: number, updatedPlayer: AgricolaPlayer):void {
@@ -50,6 +53,17 @@ export default class AgricolaGameComponent {
         console.log('User selected to add a new player!');
 
         let newUser: AgricolaPlayer = new AgricolaPlayer(playerName);
-        this.currentPlayers.push(newUser);
+        //this.currentPlayers.push(newUser);
+        console.log('calling the backend!');
+
+        //TODO: Need to handle the player object that is coming back
+        this.agricolaService.addPlayer(playerName)
+                    .subscribe(
+                        response => console.log('Response: ' + response),
+                        error => console.log('ERROR: ' + error));
+
+        //let data = this.agricolaService.beginGame();
+
+        //console.log('Data: ' + JSON.stringify(data));
     }
 }

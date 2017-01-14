@@ -6,6 +6,7 @@ import {
     ROUTER_DIRECTIVES,
     Router
 } from '@angular/router-deprecated';
+import './rxjs-operators';
 
 
 import { AgricolaGameComponent } from './agricola/agricola';
