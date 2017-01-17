@@ -9,24 +9,25 @@ import AgricolaPlayer from './agricola_player';
     templateUrl: 'app/agricola/player/agricola_player.component.html'
 })
 export default class AgricolaPlayerComponent implements OnInit {
-    @Input() playerName: string;
+    @Input() player: AgricolaPlayer;
 
     @Output() playerScoreUpdated: EventEmitter<AgricolaPlayer>;
 
-    private boundPlayer: AgricolaPlayer;
 
     constructor() {
         this.playerScoreUpdated = new EventEmitter<AgricolaPlayer>();
     }
 
     ngOnInit(): void {
-        this.boundPlayer = new AgricolaPlayer(this.playerName);
     }
 
     scoreUpdateNotification(score: number) {
-        this.boundPlayer.score = score;
+        console.log('------------------------------------');
+        console.log('Score updated for: ' + this.player.name);
+        console.log('------------------------------------');
+        this.player.score = score;
 
-        this.playerScoreUpdated.emit(this.boundPlayer);
+        this.playerScoreUpdated.emit(this.player);
     }
 
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, URLSearchParams, RequestOptions, Headers } from '@angular/http';
 
+import ServerPlayer from './server_player';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
@@ -22,7 +23,7 @@ export class AgricolaService {
                         .catch(this.handleError);
     }
 
-    addPlayer(playerName: string): Observable<boolean> {
+    addPlayer(playerName: string): Observable<ServerPlayer> {
         let options = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
 
         let params: URLSearchParams = new URLSearchParams();
@@ -31,6 +32,19 @@ export class AgricolaService {
 
         return this.http.put(this.agricolaUrl + '/addPlayer',null, options)
                         .map(this.extractJson)
+                        .catch(this.handleError);
+    }
+
+    updateScoreForPlayer(id: String, score: number) {
+        let options = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
+
+        let params: URLSearchParams = new URLSearchParams();
+        params.set("id", id + '');
+        params.set("score", score+ '');
+        options.search = params;
+
+        return this.http.post(this.agricolaUrl + '/setScore', null, options)
+                        .map(this.extractStatus)
                         .catch(this.handleError);
     }
 
@@ -45,7 +59,8 @@ export class AgricolaService {
 
     private extractJson(res: Response) {
         let body = res.json();
-        return body.data || { };
+        console.log('data from server in json: ' + body);
+        return body || { };
     }
 
     private handleError (error: Response | any) {
