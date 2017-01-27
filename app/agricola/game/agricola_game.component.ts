@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import AgricolaPlayerComponent from '../player/agricola_player.component';
 import AgricolaPlayer from '../player/agricola_player';
-import { Modal } from '../../shared/shared';
+import { Modal, ServerGameResult } from '../../shared/shared';
 import PromptUsername from './prompt_username.component';
 import { Http } from '@angular/http';
 import { AgricolaService } from '../service/agricola.service';
@@ -15,6 +15,7 @@ import { AgricolaService } from '../service/agricola.service';
 })
 export default class AgricolaGameComponent implements OnInit {
     currentPlayers: AgricolaPlayer[];
+    gameId: string;
     @ViewChild(Modal) modal;
 
     constructor(private agricolaService: AgricolaService) {
@@ -24,7 +25,7 @@ export default class AgricolaGameComponent implements OnInit {
     ngOnInit(): void {
         this.agricolaService.beginGame()
                     .subscribe(
-                        response => console.log('Response: ' + response),
+                        response => this.extractGameId(response),
                         error => console.log('ERROR: ' + error));
     }
 
@@ -37,7 +38,7 @@ export default class AgricolaGameComponent implements OnInit {
             this.currentPlayers[index].score = updatedPlayer.score;
             //console.log('New Values: ' + this.currentPlayers[index].name + ' --- ' + this.currentPlayers[index].score);
 
-            this.agricolaService.updateScoreForPlayer(updatedPlayer.id, updatedPlayer.score)
+            this.agricolaService.updateScoreForPlayer(this.gameId, updatedPlayer.id, updatedPlayer.score)
                 .subscribe();
         }
         else {
@@ -59,7 +60,7 @@ export default class AgricolaGameComponent implements OnInit {
         console.log('calling the backend!');
 
         //TODO: Need to handle the player object that is coming back
-        this.agricolaService.addPlayer(playerName)
+        this.agricolaService.addPlayer(this.gameId, playerName)
                     .subscribe(
                         response => {
                             console.log('Got from server: ' + JSON.stringify(response));
@@ -72,5 +73,10 @@ export default class AgricolaGameComponent implements OnInit {
         //let data = this.agricolaService.beginGame();
 
         //console.log('Data: ' + JSON.stringify(data));
+    }
+
+    private extractGameId(responseString: string) {
+        this.gameId = responseString;
+        console.log('Got the ID: ' + JSON.stringify(this.gameId));
     }
 }

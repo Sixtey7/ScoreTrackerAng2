@@ -6,7 +6,8 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class AgricolaService {
-    private agricolaUrl = 'http://localhost:8080/scoretracker/agricola';
+    //private agricolaUrl = 'http://localhost:8080/scoretracker/agricola';
+    private agricolaUrl = 'http://localhost:30000/agricola';
 
     constructor(private http: Http) {}
 
@@ -16,18 +17,19 @@ export class AgricolaService {
                         .catch(this.handleError);
     }
 
-    beginGame(): Observable<boolean> {
+    beginGame(): Observable<string> {
         console.log('beginning a new game!');
         return this.http.put(this.agricolaUrl + '/begin', null)
-                        .map(this.extractStatus)
+                        .map(this.extractString)
                         .catch(this.handleError);
     }
 
-    addPlayer(playerName: string): Observable<ServerPlayer> {
+    addPlayer(gameId: string, playerName: string): Observable<ServerPlayer> {
         let options = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
 
         let params: URLSearchParams = new URLSearchParams();
-        params.set("player", playerName);
+        params.set('gameId', gameId);
+        params.set("playerName", playerName);
         options.search = params;
 
         return this.http.put(this.agricolaUrl + '/addPlayer',null, options)
@@ -35,12 +37,13 @@ export class AgricolaService {
                         .catch(this.handleError);
     }
 
-    updateScoreForPlayer(id: String, score: number) {
+    updateScoreForPlayer(gameId: string, playerId: string, score: number) {
         let options = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
 
         let params: URLSearchParams = new URLSearchParams();
-        params.set("id", id + '');
-        params.set("score", score+ '');
+        params.set('gameId', gameId);
+        params.set("playerId", playerId);
+        params.set("score", score + '');
         options.search = params;
 
         return this.http.post(this.agricolaUrl + '/setScore', null, options)

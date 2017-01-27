@@ -1,9 +1,9 @@
 export default class AgricolaPlayer {
-    public id: String;
-    public name: String;
+    public id: string;
+    public name: string;
     public score: number;
 
-    constructor(id: String, name: String, score?: number) {
+    constructor(id: string, name: string, score?: number) {
         this.name = name;
         this.id = id;
 
