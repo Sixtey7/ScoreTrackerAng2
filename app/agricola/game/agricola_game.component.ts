@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import AgricolaPlayerComponent from '../player/agricola_player.component';
 import AgricolaPlayer from '../player/agricola_player';
-import { Modal, ServerGameResult } from '../../shared/shared';
+import { Modal } from '../../shared/shared';
 import PromptUsername from './prompt_username.component';
 import { Http } from '@angular/http';
 import { AgricolaService } from '../service/agricola.service';
