@@ -23,7 +23,7 @@ export default class AgricolaPlayerComponent implements OnInit {
 
     scoreUpdateNotification(score: number) {
         console.log('------------------------------------');
-        console.log('Score updated for: ' + this.player.name);
+        console.log('Score updated for: ' + JSON.stringify(this.player));
         console.log('------------------------------------');
         this.player.score = score;
 

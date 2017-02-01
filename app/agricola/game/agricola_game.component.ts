@@ -64,9 +64,9 @@ export default class AgricolaGameComponent implements OnInit {
                     .subscribe(
                         response => {
                             console.log('Got from server: ' + JSON.stringify(response));
-                            let testNewPlayer: AgricolaPlayer = new AgricolaPlayer(response.id, response.name);
+                            let testNewPlayer: AgricolaPlayer = new AgricolaPlayer(response._id, response.name);
                             console.log('Created the player: ' + JSON.stringify(testNewPlayer));
-                            this.currentPlayers.push(new AgricolaPlayer(response.id, response.name));
+                            this.currentPlayers.push(new AgricolaPlayer(response._id, response.name));
                         },
                         error => console.log('ERROR: ' + error));
 
