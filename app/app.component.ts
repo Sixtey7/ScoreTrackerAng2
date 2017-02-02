@@ -9,10 +9,11 @@ import {
 import './rxjs-operators';
 
 
-import { AgricolaGameComponent } from './agricola/agricola';
+import { AgricolaGameRouterComponent } from './agricola/agricola';
+import { LauncherComponent }  from './launcher/launcher';
 @Component({
     selector: 'score-tracking-app',
-    directives: [ROUTER_DIRECTIVES, AgricolaGameComponent],
+    directives: [ROUTER_DIRECTIVES, AgricolaGameRouterComponent],
     providers: [HTTP_PROVIDERS, ROUTER_PROVIDERS],
     templateUrl: 'app/app.component.html'
 })
@@ -20,13 +21,18 @@ import { AgricolaGameComponent } from './agricola/agricola';
     {
         path: '',
         name: 'Home',
-        redirectTo: ['AgricolaScoreComponent']
+        redirectTo: ['LauncherComponent']
     },
     {
-        path: 'agricola',
-        name: 'AgricolaScoreComponent',
-        component: AgricolaGameComponent,
+        path: 'launcher',
+        name: 'LauncherComponent',
+        component: LauncherComponent,
         useAsDefault: true
+    },
+    {
+        path: 'agricola/...',
+        name: 'AgricolaGameRouterComponent',
+        component: AgricolaGameRouterComponent,
     }
 ])
 export default class AppComponent {

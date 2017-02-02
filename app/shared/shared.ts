@@ -5,11 +5,15 @@ import RangeScore from './classes/range_score';
 
 import Modal from './modal/modal.component';
 
+import { GameList } from './enums/game_list.enum';
+
 export {
     Scoreable,
     
     SingleScore,
     RangeScore,
 
-    Modal
+    Modal,
+
+    GameList
 };
