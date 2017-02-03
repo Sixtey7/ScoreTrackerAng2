@@ -21,7 +21,14 @@ export default class LauncherComponent implements OnInit {
     }
 
 
-    private extractAllGames(response) {
+    private extractAllGames(response : ServerGame[]) {
         console.log('\n---------\nGOT ALL GAMES\n' + JSON.stringify(response) + '\n---------');
+
+        console.log(typeof response);
+
+        for (let x: number = 0; x < response.length; x++) {
+            this.allGames.push(response[x]);
+        }
+        
     }
 }
