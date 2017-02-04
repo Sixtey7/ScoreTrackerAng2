@@ -5,6 +5,7 @@ import { Modal } from '../../shared/shared';
 import PromptUsername from './prompt_username.component';
 import { Http } from '@angular/http';
 import { AgricolaService } from '../service/agricola.service';
+import { RouteParams} from '@angular/router-deprecated';
 
 @Component({
     selector: 'agricola-game',
@@ -18,15 +19,26 @@ export default class AgricolaGameComponent implements OnInit {
     gameId: string;
     @ViewChild(Modal) modal;
 
-    constructor(private agricolaService: AgricolaService) {
+    constructor(private agricolaService: AgricolaService, private routeParams: RouteParams) {
         this.currentPlayers = new Array<AgricolaPlayer>();
     }
 
     ngOnInit(): void {
-        this.agricolaService.beginGame()
+        let gameId = this.routeParams.get('id');
+
+        if (gameId !== undefined) {
+            console.log('ngOnInit found the id: ' + gameId);
+            //TODO: Need to find the id
+        }
+        else { 
+            console.log('ngOninit did not find a game id');
+
+            this.agricolaService.beginGame()
                     .subscribe(
                         response => this.extractGameId(response),
                         error => console.log('ERROR: ' + error));
+        }
+        
     }
 
     playerScoreUpdated(index: number, updatedPlayer: AgricolaPlayer):void {

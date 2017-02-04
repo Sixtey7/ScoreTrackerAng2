@@ -2,11 +2,13 @@ import ServerPlayerResult from './server_player_result';
 import { GameList } from '../../shared/shared';
 
 export default class ServerGame {
+    public _id: string;
     public game: GameList;
     public playerResults: ServerPlayerResult[];
+    public date: Date;
+    public gameString;
 
-    constructor(_game: GameList, _playerResults: ServerPlayerResult[]) {
-        this.game = _game;
-        this.playerResults = _playerResults;
+    constructor() {
+        console.log('Running constructor');
     }
 }

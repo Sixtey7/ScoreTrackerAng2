@@ -15,7 +15,7 @@ import AgricolaGameComponent from './agricola_game.component';
         useAsDefault: true
     },
     {
-        path: '/load/:id',
+        path: '/:id',
         name: 'ResumeGame',
         component: AgricolaGameComponent 
     }

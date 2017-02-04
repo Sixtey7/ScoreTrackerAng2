@@ -1,6 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { LauncherService } from '../service/launcher.service';
 import ServerGame from '../service/server_game';
+import { GameList } from '../../shared/shared';
+import { Router } from '@angular/router-deprecated';
+
+
 @Component({
     selector: 'launcher-component',
     providers: [LauncherService],
@@ -9,7 +13,7 @@ import ServerGame from '../service/server_game';
 })
 export default class LauncherComponent implements OnInit {
     private allGames : ServerGame[]; 
-    constructor(private launcherService: LauncherService) {
+    constructor(private launcherService: LauncherService, private router: Router) {
         this.allGames = new Array<ServerGame>();
     }
 
@@ -27,8 +31,15 @@ export default class LauncherComponent implements OnInit {
         console.log(typeof response);
 
         for (let x: number = 0; x < response.length; x++) {
+            response[x].gameString = GameList[response[x].game].toString();
             this.allGames.push(response[x]);
         }
         
+    }
+
+    launchGame(gameId: string) {
+        console.log('consoling the id: ' + gameId);
+
+        this.router.navigate(['AgricolaGameRouterComponent', 'ResumeGame', { id: gameId }]);
     }
 }

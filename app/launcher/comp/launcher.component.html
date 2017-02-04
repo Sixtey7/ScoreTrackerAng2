@@ -1,3 +1,24 @@
-<span *ngFor = "let game of allGames; let i = index;">
-    <div>{{ game._id }}</div>
-</span>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Game</th>
+            <th>Date</th>
+            <th>Players</th>
+            <th>Launch</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor = "let game of allGames; let i = index;">
+            <td>{{ game.gameString }}</td>
+            <td>{{ game.date }}</td>
+            <td>
+                <span *ngFor = "let player of game.playerResults">
+                    {{ player.playerId }} : {{ player.score }}
+                </span>
+            </td>
+            <td>
+                <button class="btn btn-primary btn-raised" (click)="launchGame(game._id)">Launch!</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
