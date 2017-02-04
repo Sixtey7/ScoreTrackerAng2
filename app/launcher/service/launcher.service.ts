@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class LauncherService {
-    private launcherUrl = 'http://localhost:30000/agricola';
+    private launcherUrl = 'http://localhost:30000/standard';
 
     constructor(private http: Http) {}
 

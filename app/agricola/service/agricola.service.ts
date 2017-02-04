@@ -6,8 +6,7 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class AgricolaService {
-    //private agricolaUrl = 'http://localhost:8080/scoretracker/agricola';
-    private agricolaUrl = 'http://localhost:30000/agricola';
+    private agricolaUrl = 'http://localhost:30000/standard';
 
     constructor(private http: Http) {}
 
