@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { LauncherService } from '../service/launcher.service';
-import ServerGame from '../service/server_game';
-import { GameList } from '../../shared/shared';
+import { GameList, ServerGame } from '../../shared/shared';
 import { Router } from '@angular/router-deprecated';
 
 

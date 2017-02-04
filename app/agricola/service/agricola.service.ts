@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, URLSearchParams, RequestOptions, Headers } from '@angular/http';
 
-import ServerPlayer from './server_player';
+import { ServerGame, ServerPlayer } from '../../shared/shared';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
@@ -22,6 +22,34 @@ export class AgricolaService {
         return this.http.put(this.agricolaUrl + '/begin', null)
                         .map(this.extractString)
                         .catch(this.handleError);
+    }
+
+    getGame(gameId: string): Observable<ServerGame> {
+        let options = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
+
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('gameId', gameId);
+        options.search = params;
+
+        return this.http.get(this.agricolaUrl + '/currentScores', options)
+            .map(this.extractJson)
+            .catch(this.handleError);
+
+    }
+
+    getPlayers(playerIds: string[]): Observable<ServerPlayer[]> {
+        let options = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
+
+        let params: URLSearchParams = new URLSearchParams();
+        for (let x: number = 0; x < playerIds.length; x++) {
+            params.append('playerIds', playerIds[x])
+        }
+        options.search = params;
+
+        return this.http.get(this.agricolaUrl + '/players', options)
+            .map(this.extractJson)
+            .catch(this.handleError);
+
     }
 
     addPlayer(gameId: string, playerName: string): Observable<ServerPlayer> {

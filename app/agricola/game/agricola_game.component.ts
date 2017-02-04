@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import AgricolaPlayerComponent from '../player/agricola_player.component';
 import AgricolaPlayer from '../player/agricola_player';
-import { Modal } from '../../shared/shared';
+import { Modal, ServerGame, ServerPlayer } from '../../shared/shared';
 import PromptUsername from './prompt_username.component';
 import { Http } from '@angular/http';
 import { AgricolaService } from '../service/agricola.service';
@@ -28,6 +28,15 @@ export default class AgricolaGameComponent implements OnInit {
 
         if (gameId !== undefined) {
             console.log('ngOnInit found the id: ' + gameId);
+            this.agricolaService.getGame(gameId)
+                .subscribe(
+                    response => {
+                        this.loadGame(response);
+                    },
+                    error => {
+                        console.log('GOT THE ERROR: ' + error);
+                    }
+                )
             //TODO: Need to find the id
         }
         else { 
@@ -42,13 +51,9 @@ export default class AgricolaGameComponent implements OnInit {
     }
 
     playerScoreUpdated(index: number, updatedPlayer: AgricolaPlayer):void {
-        //console.log('We were told that index: ' + index + ' with name: ' + updatedPlayer.name + ' has been updated');
-
         if (this.currentPlayers[index].name === updatedPlayer.name) {
-            //console.log('Name matches - we\'re good!');
             //we could copy the entire object here, but for now, just copying the value out
             this.currentPlayers[index].score = updatedPlayer.score;
-            //console.log('New Values: ' + this.currentPlayers[index].name + ' --- ' + this.currentPlayers[index].score);
 
             this.agricolaService.updateScoreForPlayer(this.gameId, updatedPlayer.id, updatedPlayer.score)
                 .subscribe();
@@ -71,13 +76,10 @@ export default class AgricolaGameComponent implements OnInit {
         //this.currentPlayers.push(newUser);
         console.log('calling the backend!');
 
-        //TODO: Need to handle the player object that is coming back
         this.agricolaService.addPlayer(this.gameId, playerName)
                     .subscribe(
                         response => {
                             console.log('Got from server: ' + JSON.stringify(response));
-                            let testNewPlayer: AgricolaPlayer = new AgricolaPlayer(response._id, response.name);
-                            console.log('Created the player: ' + JSON.stringify(testNewPlayer));
                             this.currentPlayers.push(new AgricolaPlayer(response._id, response.name));
                         },
                         error => console.log('ERROR: ' + error));
@@ -90,5 +92,36 @@ export default class AgricolaGameComponent implements OnInit {
     private extractGameId(responseString: string) {
         this.gameId = responseString;
         console.log('Got the ID: ' + JSON.stringify(this.gameId));
+    }
+
+    private loadGame(gameResponse: ServerGame) {
+        console.log('loading game with id: ' + gameResponse._id);
+
+        this.gameId = gameResponse._id;
+
+        let playerIds: string[] = new Array<string>();
+
+        for (let x: number =0; x < gameResponse.playerResults.length; x++) {
+            console.log('Adding the playerId: ' + gameResponse.playerResults[x].playerId.toString());
+            playerIds.push(gameResponse.playerResults[x].playerId.toString());
+        }
+
+        this.agricolaService.getPlayers(playerIds)
+            .subscribe(response => {
+                for (let y: number = 0; y < response.length; y++) {
+                    //find the matching playerResults
+                    let playerResultPos: number = -1;
+                    //TODO: could cache a map of player ids to positions above, or make an array, or something to make this faster
+                    for (playerResultPos = 0; playerResultPos < gameResponse.playerResults.length; playerResultPos++) {
+                        if (gameResponse.playerResults[playerResultPos].playerId === response[y]._id) {
+                            break;
+                        }
+                    }
+
+                    let newPlayer: AgricolaPlayer = new AgricolaPlayer(response[y]._id, response[y].name, gameResponse.playerResults[playerResultPos].score);
+                    this.currentPlayers.push(newPlayer);
+                }
+            }, 
+            error => console.error('GOT AN ERROR: ' + error));
     }
 }
