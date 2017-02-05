@@ -1,17 +1,7 @@
-export default class AgricolaPlayer {
-    public id: string;
-    public name: string;
-    public score: number;
+import { Player } from '../../shared/shared';
+export default class AgricolaPlayer  extends Player {
 
     constructor(id: string, name: string, score?: number) {
-        this.name = name;
-        this.id = id;
-
-        if (score) {
-            this.score = score
-        }
-        else {
-            this.score = 0;
-        }
+        super(id, name, score);
     }
 }

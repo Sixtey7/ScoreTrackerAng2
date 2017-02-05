@@ -10,6 +10,8 @@ import './rxjs-operators';
 
 
 import { AgricolaGameRouterComponent } from './agricola/agricola';
+import { StandardGameRouterComponent } from './standard/standard';
+
 import { LauncherComponent }  from './launcher/launcher';
 @Component({
     selector: 'score-tracking-app',
@@ -28,6 +30,11 @@ import { LauncherComponent }  from './launcher/launcher';
         name: 'LauncherComponent',
         component: LauncherComponent,
         useAsDefault: true
+    },
+    {
+        path: 'standard/...',
+        name: 'StandardGameRouterComponent',
+        component: StandardGameRouterComponent,
     },
     {
         path: 'agricola/...',

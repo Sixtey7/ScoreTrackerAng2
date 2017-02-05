@@ -19,6 +19,7 @@ export default class AgricolaPlayerComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        //TODO: Do I actually need this?
     }
 
     scoreUpdateNotification(score: number) {

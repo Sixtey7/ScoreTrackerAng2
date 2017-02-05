@@ -1,0 +1,12 @@
+<span *ngFor = "let player of currentPlayers; let i = index;">
+    <div class="col-xs-3">
+        <standard-player [player]="player" (playerScoreUpdated)="playerScoreUpdated(i, $event)"></standard-player>
+    </div>
+</span>
+
+<!-- Button trigger modal -->
+<button type="button" (click)="promptForUsername()" class="btn btn-primary btn-fab add_new_button">
+    <i class="material-icons">add</i>
+</button>
+
+<modal (modalOutput)="addNewPlayer($event)"></modal>

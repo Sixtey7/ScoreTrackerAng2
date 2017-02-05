@@ -1,16 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import AgricolaPlayerComponent from '../player/agricola_player.component';
 import AgricolaPlayer from '../player/agricola_player';
-import { Modal, ServerGame, ServerPlayer } from '../../shared/shared';
-import PromptUsername from './prompt_username.component';
+import { GameList ,Modal, PromptUsername, ServerGame, ServerPlayer } from '../../shared/shared';
 import { Http } from '@angular/http';
-import { AgricolaService } from '../service/agricola.service';
+import { StandardService } from '../../standard/standard';
 import { RouteParams} from '@angular/router-deprecated';
 
 @Component({
     selector: 'agricola-game',
     directives: [ AgricolaPlayerComponent, Modal ],
-    providers: [ AgricolaService ],
+    providers: [ StandardService ],
     styleUrls: [ 'app/agricola/game/agricola_game.component.css' ],
     templateUrl: 'app/agricola/game/agricola_game.component.html'
 })
@@ -19,7 +18,7 @@ export default class AgricolaGameComponent implements OnInit {
     gameId: string;
     @ViewChild(Modal) modal;
 
-    constructor(private agricolaService: AgricolaService, private routeParams: RouteParams) {
+    constructor(private standardService: StandardService, private routeParams: RouteParams) {
         this.currentPlayers = new Array<AgricolaPlayer>();
     }
 
@@ -28,7 +27,7 @@ export default class AgricolaGameComponent implements OnInit {
 
         if (gameId !== undefined) {
             console.log('ngOnInit found the id: ' + gameId);
-            this.agricolaService.getGame(gameId)
+            this.standardService.getGame(gameId)
                 .subscribe(
                     response => {
                         this.loadGame(response);
@@ -37,12 +36,11 @@ export default class AgricolaGameComponent implements OnInit {
                         console.log('GOT THE ERROR: ' + error);
                     }
                 )
-            //TODO: Need to find the id
         }
         else { 
             console.log('ngOninit did not find a game id');
 
-            this.agricolaService.beginGame()
+            this.standardService.beginGame(GameList.AGRICOLA.toString())
                     .subscribe(
                         response => this.extractGameId(response),
                         error => console.log('ERROR: ' + error));
@@ -55,7 +53,7 @@ export default class AgricolaGameComponent implements OnInit {
             //we could copy the entire object here, but for now, just copying the value out
             this.currentPlayers[index].score = updatedPlayer.score;
 
-            this.agricolaService.updateScoreForPlayer(this.gameId, updatedPlayer.id, updatedPlayer.score)
+            this.standardService.updateScoreForPlayer(this.gameId, updatedPlayer.id, updatedPlayer.score)
                 .subscribe();
         }
         else {
@@ -76,7 +74,7 @@ export default class AgricolaGameComponent implements OnInit {
         //this.currentPlayers.push(newUser);
         console.log('calling the backend!');
 
-        this.agricolaService.addPlayer(this.gameId, playerName)
+        this.standardService.addPlayer(this.gameId, playerName)
                     .subscribe(
                         response => {
                             console.log('Got from server: ' + JSON.stringify(response));
@@ -106,7 +104,7 @@ export default class AgricolaGameComponent implements OnInit {
             playerIds.push(gameResponse.playerResults[x].playerId.toString());
         }
 
-        this.agricolaService.getPlayers(playerIds)
+        this.standardService.getPlayers(playerIds)
             .subscribe(response => {
                 for (let y: number = 0; y < response.length; y++) {
                     //find the matching playerResults

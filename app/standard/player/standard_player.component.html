@@ -1,0 +1,10 @@
+<div class = "row">
+    <span class="playerNameText">{{ player.name }}</span>
+    <single-score 
+        [name]="'Score'"
+        [multiplier]="1"
+        [initialValue]="0"
+        (scoreUpdated)="updateScore($event)">
+    </single-score>
+
+</div>

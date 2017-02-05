@@ -39,6 +39,7 @@ export default class LauncherComponent implements OnInit {
     launchGame(gameId: string) {
         console.log('consoling the id: ' + gameId);
 
-        this.router.navigate(['AgricolaGameRouterComponent', 'ResumeGame', { id: gameId }]);
+        //this.router.navigate(['AgricolaGameRouterComponent', 'ResumeGame', { id: gameId }]);
+        this.router.navigate(['StandardGameRouterComponent', 'ResumeGame', { id: gameId }]);
     }
 }

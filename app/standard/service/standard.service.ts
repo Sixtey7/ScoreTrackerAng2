@@ -5,20 +5,27 @@ import { ServerGame, ServerPlayer } from '../../shared/shared';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
-export class AgricolaService {
-    private agricolaUrl = 'http://localhost:30000/standard';
+export class StandardService {
+    private standardUrl = 'http://localhost:30000/standard';
 
     constructor(private http: Http) {}
 
     sayHello(): Observable<String> {
-        return this.http.get(this.agricolaUrl + '/hello')
+        return this.http.get(this.standardUrl + '/hello')
                         .map(this.extractString)
                         .catch(this.handleError);
     }
 
-    beginGame(): Observable<string> {
-        console.log('beginning a new game!');
-        return this.http.put(this.agricolaUrl + '/begin', null)
+    beginGame(gameName: string): Observable<string> {
+        console.log('beginning a new game of ' + gameName + '!');
+
+        let options = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
+
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('gameName', gameName);
+        options.search = params;
+        
+        return this.http.put(this.standardUrl + '/begin', null, options)
                         .map(this.extractString)
                         .catch(this.handleError);
     }
@@ -30,7 +37,7 @@ export class AgricolaService {
         params.set('gameId', gameId);
         options.search = params;
 
-        return this.http.get(this.agricolaUrl + '/currentScores', options)
+        return this.http.get(this.standardUrl + '/currentScores', options)
             .map(this.extractJson)
             .catch(this.handleError);
 
@@ -45,7 +52,7 @@ export class AgricolaService {
         }
         options.search = params;
 
-        return this.http.get(this.agricolaUrl + '/players', options)
+        return this.http.get(this.standardUrl + '/players', options)
             .map(this.extractJson)
             .catch(this.handleError);
 
@@ -59,7 +66,7 @@ export class AgricolaService {
         params.set("playerName", playerName);
         options.search = params;
 
-        return this.http.put(this.agricolaUrl + '/addPlayer',null, options)
+        return this.http.put(this.standardUrl + '/addPlayer',null, options)
                         .map(this.extractJson)
                         .catch(this.handleError);
     }
@@ -73,7 +80,7 @@ export class AgricolaService {
         params.set("score", score + '');
         options.search = params;
 
-        return this.http.post(this.agricolaUrl + '/setScore', null, options)
+        return this.http.post(this.standardUrl + '/setScore', null, options)
                         .map(this.extractStatus)
                         .catch(this.handleError);
     }

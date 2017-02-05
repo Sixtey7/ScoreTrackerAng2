@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { Modal } from '../../shared/shared';
+import Modal  from './modal.component';
 
 @Component({
     selector: 'prompt_username',
