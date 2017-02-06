@@ -1,17 +1,22 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { LauncherService } from '../service/launcher.service';
-import { GameList, ServerGame } from '../../shared/shared';
+import { GameList, Modal, ServerGame } from '../../shared/shared';
 import { Router } from '@angular/router-deprecated';
+import PromptGameSelection from './game_select_modal';
 
 
 @Component({
     selector: 'launcher-component',
+    directives: [ Modal ],
     providers: [LauncherService],
     styleUrls: [ 'app/launcher/comp/launcher.component.css'],
     templateUrl: 'app/launcher/comp/launcher.component.html'
 })
 export default class LauncherComponent implements OnInit {
     private allGames : ServerGame[]; 
+
+    @ViewChild(Modal) modal;
+
     constructor(private launcherService: LauncherService, private router: Router) {
         this.allGames = new Array<ServerGame>();
     }
@@ -41,5 +46,18 @@ export default class LauncherComponent implements OnInit {
 
         //this.router.navigate(['AgricolaGameRouterComponent', 'ResumeGame', { id: gameId }]);
         this.router.navigate(['StandardGameRouterComponent', 'ResumeGame', { id: gameId }]);
+    }
+
+    promptForGame(): void {
+        console.log('Prompting for which game!');
+
+        this.modal.modalTitle = "Enter Name";
+        this.modal.modalFooter = false;
+        this.modal.modalMessage = false;
+        this.modal.open(PromptGameSelection); 
+    }
+
+    handleResponse(gameName: string) {
+        console.log('Got the response: ' + gameName);
     }
 }

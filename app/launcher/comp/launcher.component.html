@@ -22,3 +22,10 @@
         </tr>
     </tbody>
 </table>
+
+<!-- Button trigger modal -->
+<button type="button" (click)="promptForGame()" class="btn btn-primary btn-fab score_tracker_fab">
+    <i class="material-icons">add</i>
+</button>
+
+<modal (modalOutput)="startNewGame($event)"></modal>

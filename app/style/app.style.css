@@ -1,3 +1,9 @@
 .agricola-text {
     font-size: 14px;
 }
+
+.score_tracker_fab {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+}
