@@ -57,7 +57,7 @@ export default class LauncherComponent implements OnInit {
         this.modal.open(PromptGameSelection); 
     }
 
-    handleResponse(gameName: string) {
+    startNewGame(gameName: any) {
         console.log('Got the response: ' + gameName);
     }
 }

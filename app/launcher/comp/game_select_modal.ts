@@ -14,7 +14,7 @@ import { Modal } from '../../shared/shared';
             </datalist>
         </div>
         <div class="form-group">
-            <button type="submit" (click)="handleResponse(gameName.value)" class="btn btn-primary custom-btn">Play!</button>
+            <button type="submit" (click)="handleResponse(response.value)" class="btn btn-primary custom-btn">Play!</button>
             <button type="submit" (click)="close()" class="btn btn-primary custom-btn">Cancel</button>
         </div>
     `,
@@ -30,7 +30,8 @@ export default class PromptGameSelection {
         this._modal.close();
     }
 
-    handleRessponse(_response: string) {
+    handleResponse(_response: any) {
+        console.log('got the response: ' +_response);
         this._modal.close(_response);
     }
 }
