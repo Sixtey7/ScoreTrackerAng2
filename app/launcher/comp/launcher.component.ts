@@ -67,22 +67,6 @@ export default class LauncherComponent implements OnInit {
         else {
             this.router.navigate(['StandardGameRouterComponent', 'NewGame', { gameName: game.toString()}]);
         }
-        /*this.launcherService.beginGame(GameList.fromReadableString(gameName))
-            .subscribe(
-                response => {
-                    if (GameList.fromReadableString(gameName) === GameList.AGRICOLA) {
-                        //agricola has a special component
-
-                    }
-                    else {
-
-                    }
-                    this.router.navigate(['StandardGameRouterComponent', ])
-                },
-                error => {
-                    console.log('got an error trying to create a new game of ' + gameName + '\n' + error);
-                }
-            )*/
     }
 
 }

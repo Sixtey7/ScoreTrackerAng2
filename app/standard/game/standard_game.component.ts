@@ -25,8 +25,6 @@ export default class StandardGameComponent implements OnInit {
     ngOnInit(): void {
         let gameId = this.routeParams.params['id'];
 
-        console.log('\n------------------------------------------\n' + JSON.stringify(this.routeParams.params) + '\n------------------------------------------\n');
-
         if (gameId !== undefined) {
             console.log('ngOnInit found the id: ' + gameId);
             this.standardService.getGame(gameId)

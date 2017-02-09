@@ -23,7 +23,7 @@ export default class AgricolaGameComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        let gameId = this.routeParams.get('id');
+        let gameId = this.routeParams.params['id'];
 
         if (gameId !== undefined) {
             console.log('ngOnInit found the id: ' + gameId);
