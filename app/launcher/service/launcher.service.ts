@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, RequestOptions, Headers, URLSearchParams } from '@angular/http';
 
-import { ServerGame } from '../../shared/shared';
+import { ServerGame, GameList } from '../../shared/shared';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -17,9 +17,28 @@ export class LauncherService {
             .catch(this.handleError);
     }
 
+        beginGame(gameName: GameList): Observable<string> {
+        console.log('beginning a new game of ' + gameName + '!');
+
+        let options = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
+
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('gameName', gameName.toString());
+        options.search = params;
+        
+        return this.http.put(this.launcherUrl + '/begin', null, options)
+                        .map(this.extractString)
+                        .catch(this.handleError);
+    }
+
     private extractJson(res: Response) {
         let body = res.json();
         console.log('data from server in json: ' + body);
+        return body || { };
+    }
+
+    private extractString(res: Response) {
+        let body = res.text();
         return body || { };
     }
 

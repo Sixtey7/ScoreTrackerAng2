@@ -59,5 +59,8 @@ export default class LauncherComponent implements OnInit {
 
     startNewGame(gameName: any) {
         console.log('Got the response: ' + gameName);
+        console.log('Created the enum: ' + GameList.fromReadableString(gameName).toString());
+        this.launcherService.beginGame(GameList.fromReadableString(gameName)).subscribe();
     }
+
 }
