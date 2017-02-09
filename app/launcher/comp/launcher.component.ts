@@ -44,7 +44,6 @@ export default class LauncherComponent implements OnInit {
     launchGame(gameId: string) {
         console.log('consoling the id: ' + gameId);
 
-        //this.router.navigate(['AgricolaGameRouterComponent', 'ResumeGame', { id: gameId }]);
         this.router.navigate(['StandardGameRouterComponent', 'ResumeGame', { id: gameId }]);
     }
 
@@ -57,10 +56,33 @@ export default class LauncherComponent implements OnInit {
         this.modal.open(PromptGameSelection); 
     }
 
-    startNewGame(gameName: any) {
-        console.log('Got the response: ' + gameName);
-        console.log('Created the enum: ' + GameList.fromReadableString(gameName).toString());
-        this.launcherService.beginGame(GameList.fromReadableString(gameName)).subscribe();
+    startNewGame(_gameName: string) {
+        console.log('Got the response: ' + _gameName);
+        console.log('Created the enum: ' + GameList.fromReadableString(_gameName).toString());
+        let game: GameList = GameList.fromReadableString(_gameName);
+        if (game === GameList.AGRICOLA) {
+            //Agricola has its own game
+            this.router.navigate(['AgricolaGameRouterComponent', 'NewGame']);
+        }
+        else {
+            this.router.navigate(['StandardGameRouterComponent', 'NewGame', { gameName: game.toString()}]);
+        }
+        /*this.launcherService.beginGame(GameList.fromReadableString(gameName))
+            .subscribe(
+                response => {
+                    if (GameList.fromReadableString(gameName) === GameList.AGRICOLA) {
+                        //agricola has a special component
+
+                    }
+                    else {
+
+                    }
+                    this.router.navigate(['StandardGameRouterComponent', ])
+                },
+                error => {
+                    console.log('got an error trying to create a new game of ' + gameName + '\n' + error);
+                }
+            )*/
     }
 
 }

@@ -31,6 +31,8 @@ namespace GameList {
                 return "LORDS OF WATERDEEP";
             case GameList.CASTLES_OF_BURGANDY:
                 return "CASTLES OF BURGANDY";
+            default:
+                return "UNDEFINED";
         }
     }
 };

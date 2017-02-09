@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import StandardPlayerComponent from '../player/standard_player.component';
-import {Modal, Player, PromptUsername, ServerGame, ServerPlayer } from '../../shared/shared';
+import {Modal, Player, PromptUsername, ServerGame, ServerPlayer, GameList } from '../../shared/shared';
 import { Http } from '@angular/http';
 import { StandardService } from '../service/standard.service';
 import { RouteParams } from '@angular/router-deprecated';
@@ -15,7 +15,7 @@ import { RouteParams } from '@angular/router-deprecated';
 export default class StandardGameComponent implements OnInit {
     currentPlayers: Player[];
     gameId: string;
-    @Input() gameName: string;
+    private game: GameList;
     @ViewChild(Modal) modal;
 
     constructor(private standardService: StandardService, private routeParams: RouteParams) {
@@ -23,7 +23,9 @@ export default class StandardGameComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        let gameId = this.routeParams.get('id');
+        let gameId = this.routeParams.params['id'];
+
+        console.log('\n------------------------------------------\n' + JSON.stringify(this.routeParams.params) + '\n------------------------------------------\n');
 
         if (gameId !== undefined) {
             console.log('ngOnInit found the id: ' + gameId);
@@ -40,15 +42,25 @@ export default class StandardGameComponent implements OnInit {
         else {
             console.log('ngOnInit did not find a game id!');
 
-            this.standardService.beginGame(this.gameName)
-                .subscribe(
-                    response => {
-                        this.extractGameId(response)
-                    },
-                    error => {
-                        console.error('Got an error attempting to start a new game of ' + this.gameName + '\nerror');
-                    }
-                );
+            let gameName = this.routeParams.params['gameName'];
+            if (gameName !== undefined) {
+                console.log('found the gamename : ' + gameName);
+                //this.game = GameList.fromReadableString(gameName);
+                this.game = GameList[gameName];
+                console.log('Built the game: ' + GameList.toReadableString(this.game));
+                this.standardService.beginGame(this.game.toString())
+                    .subscribe(
+                        response => {
+                            this.extractGameId(response)
+                        },
+                        error => {
+                            console.error('Got an error attempting to start a new game of ' + GameList.toReadableString(this.game) + '\nerror');
+                        }
+                    );
+            }
+            else {
+                console.error('No Route Id and No Game Name!')
+            }
         }
     }
 
