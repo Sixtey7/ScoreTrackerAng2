@@ -10,7 +10,7 @@ import { RouteParams} from '@angular/router-deprecated';
     selector: 'agricola-game',
     directives: [ AgricolaPlayerComponent, Modal ],
     providers: [ StandardService ],
-    styleUrls: [ 'app/agricola/game/agricola_game.component.css' ],
+    styleUrls: [ 'app/style/app.style.css', 'app/agricola/game/agricola_game.component.css' ],
     templateUrl: 'app/agricola/game/agricola_game.component.html'
 })
 export default class AgricolaGameComponent implements OnInit {

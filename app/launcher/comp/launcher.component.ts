@@ -9,7 +9,7 @@ import PromptGameSelection from './game_select_modal';
     selector: 'launcher-component',
     directives: [ Modal ],
     providers: [LauncherService],
-    styleUrls: [ 'app/launcher/comp/launcher.component.css'],
+    styleUrls: [ 'app/style/app.style.css', 'app/launcher/comp/launcher.component.css'],
     templateUrl: 'app/launcher/comp/launcher.component.html'
 })
 export default class LauncherComponent implements OnInit {

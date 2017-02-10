@@ -9,7 +9,7 @@ import { RouteParams } from '@angular/router-deprecated';
     selector: 'standard-game',
     directives: [ StandardPlayerComponent, Modal ],
     providers: [ StandardService ],
-    styleUrls: ['app/standard/game/standard_game.component.css'],
+    styleUrls: ['app/style/app.style.css', 'app/standard/game/standard_game.component.css'],
     templateUrl: 'app/standard/game/standard_game.component.html'
 })
 export default class StandardGameComponent implements OnInit {
