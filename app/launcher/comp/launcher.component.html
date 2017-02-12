@@ -12,9 +12,9 @@
             <td>{{ game.gameString }}</td>
             <td>{{ game.date }}</td>
             <td>
-                <span *ngFor = "let player of game.playerResults">
+                <div *ngFor = "let player of game.playerResults">
                     {{ player.playerId }} : {{ player.score }}
-                </span>
+                </div>
             </td>
             <td>
                 <button class="btn btn-primary btn-raised" (click)="launchGame(game)">Launch!</button>

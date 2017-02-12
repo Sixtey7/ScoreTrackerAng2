@@ -1,9 +1,9 @@
 <div class = "row">
-    <span class="playerNameText">{{ player.name }}</span>
+    <!--span class="playerNameText">{{ player.name }}</span-->
     <single-score 
-        [name]="'Score'"
+        [name]="player.name"
         [multiplier]="1"
-        [initialValue]="0"
+        [initialValue]="player.score"
         (scoreUpdated)="updateScore($event)">
     </single-score>
 
