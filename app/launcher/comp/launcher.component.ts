@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { LauncherService } from '../service/launcher.service';
-import { GameList, Modal, ServerGame } from '../../shared/shared';
+import { GameList, Modal, ServerGame, ServerTotal } from '../../shared/shared';
 import { Router } from '@angular/router-deprecated';
 import PromptGameSelection from './game_select_modal';
 
@@ -14,6 +14,7 @@ import PromptGameSelection from './game_select_modal';
 })
 export default class LauncherComponent implements OnInit {
     private allGames : ServerGame[]; 
+    private allPlayers: {};
 
     @ViewChild(Modal) modal;
 
@@ -24,7 +25,10 @@ export default class LauncherComponent implements OnInit {
     ngOnInit(): void {
         this.launcherService.getAllGames()
             .subscribe(
-                response => this.extractAllGames(response),
+                response => {
+                    //TODO: Handle parsing out response.players
+                    this.extractAllGames(response.gameResults);
+                },
                 error => console.log('ERROR: ' + error));
     }
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, RequestOptions, Headers, URLSearchParams } from '@angular/http';
 
-import { ServerGame, GameList } from '../../shared/shared';
+import { ServerGame, GameList, ServerTotal } from '../../shared/shared';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -11,8 +11,8 @@ export class LauncherService {
 
     constructor(private http: Http) {}
 
-    getAllGames(): Observable<ServerGame[]> {
-        return this.http.get(this.launcherUrl + '/allGames')
+    getAllGames(): Observable<ServerTotal> {
+        return this.http.get(this.launcherUrl + '/total')
             .map(this.extractJson)
             .catch(this.handleError);
     }

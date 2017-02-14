@@ -6,6 +6,7 @@ import RangeScore from './classes/range_score';
 import ServerGame from './server_model/server_game';
 import ServerPlayer from './server_model/server_player';
 import ServerPlayerResult from './server_model/server_player_result';
+import ServerTotal from './server_model/server_total';
 
 import Player from './classes/player';
 
@@ -23,6 +24,7 @@ export {
     ServerGame,
     ServerPlayer,
     ServerPlayerResult,
+    ServerTotal,
 
     Player,
 
