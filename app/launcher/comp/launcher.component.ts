@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { LauncherService } from '../service/launcher.service';
-import { GameList, Modal, ServerGame, ServerTotal } from '../../shared/shared';
+import { GameList, Modal, ServerGame, ServerPlayer, ServerTotal } from '../../shared/shared';
 import { Router } from '@angular/router-deprecated';
 import PromptGameSelection from './game_select_modal';
 
@@ -20,6 +20,7 @@ export default class LauncherComponent implements OnInit {
 
     constructor(private launcherService: LauncherService, private router: Router) {
         this.allGames = new Array<ServerGame>();
+        this.allPlayers = {};
     }
 
     ngOnInit(): void {
@@ -27,11 +28,19 @@ export default class LauncherComponent implements OnInit {
             .subscribe(
                 response => {
                     //TODO: Handle parsing out response.players
+                    this.extractAllPlayers(response.players);
                     this.extractAllGames(response.gameResults);
                 },
                 error => console.log('ERROR: ' + error));
     }
 
+
+    private extractAllPlayers(players: ServerPlayer[]) {
+        for (let x: number = 0; x < players.length; x++) {
+            console.log('putting ' + players[x].name + ' in at ' + players[x]._id);
+            this.allPlayers[players[x]._id] = players[x].name;
+        }
+    }
 
     private extractAllGames(response : ServerGame[]) {
         console.log('\n---------\nGOT ALL GAMES\n' + JSON.stringify(response) + '\n---------');
