@@ -14,7 +14,7 @@ import PromptGameSelection from './game_select_modal';
 })
 export default class LauncherComponent implements OnInit {
     private allGames : ServerGame[]; 
-    private allPlayers: {};
+    private allPlayers: {[key: string]: string};
 
     @ViewChild(Modal) modal;
 
