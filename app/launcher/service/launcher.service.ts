@@ -7,17 +7,17 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class LauncherService {
-    private launcherUrl = 'http://localhost:30000/standard';
+    private launcherUrl = 'http://localhost:30000/launcher';
 
     constructor(private http: Http) {}
 
     getAllGames(): Observable<ServerTotal> {
-        return this.http.get(this.launcherUrl + '/total')
+        return this.http.get(this.launcherUrl + '/summary')
             .map(this.extractJson)
             .catch(this.handleError);
     }
 
-        beginGame(gameName: GameList): Observable<string> {
+    beginGame(gameName: GameList): Observable<string> {
         console.log('beginning a new game of ' + gameName + '!');
 
         let options = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
