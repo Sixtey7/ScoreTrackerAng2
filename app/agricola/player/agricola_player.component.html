@@ -1,4 +1,4 @@
 <div class="row">
     <span class="playerNameText"> {{ player.name }} </span>
-    <agricola-scores (totalScoreUpdated)="scoreUpdateNotification($event)"></agricola-scores>
+    <agricola-scores (totalScoreUpdated)="scoreUpdateNotification($event)" [player]="player"></agricola-scores>
 </div>

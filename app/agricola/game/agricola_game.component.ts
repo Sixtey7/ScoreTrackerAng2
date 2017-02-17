@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import AgricolaPlayerComponent from '../player/agricola_player.component';
 import AgricolaPlayer from '../player/agricola_player';
+import AgricolaService from './service/agricola_service';
 import { GameList ,Modal, PromptUsername, ServerGame, ServerPlayer } from '../../shared/shared';
 import { Http } from '@angular/http';
-import { StandardService } from '../../standard/standard';
 import { RouteParams} from '@angular/router-deprecated';
 
 @Component({
     selector: 'agricola-game',
     directives: [ AgricolaPlayerComponent, Modal ],
-    providers: [ StandardService ],
+    providers: [ AgricolaService ],
     styleUrls: [ 'app/style/app.style.css', 'app/agricola/game/agricola_game.component.css' ],
     templateUrl: 'app/agricola/game/agricola_game.component.html'
 })
@@ -18,7 +18,7 @@ export default class AgricolaGameComponent implements OnInit {
     gameId: string;
     @ViewChild(Modal) modal;
 
-    constructor(private standardService: StandardService, private routeParams: RouteParams) {
+    constructor(private agricolaService: AgricolaService, private routeParams: RouteParams) {
         this.currentPlayers = new Array<AgricolaPlayer>();
     }
 

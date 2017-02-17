@@ -1,6 +1,6 @@
     <!-- Fields -->
     <range-score [name]="'Fields'" 
-        [initialValue]="0" 
+        [initialValue]="player.fieldsNum" 
         [keys]="'0 2 3 4 5'" 
         [values]="'-1 1 2 3 4'" 
         (scoreUpdated)="updateScore('Fields', $event)">
@@ -8,7 +8,7 @@
 
     <!-- Pastures -->
     <range-score [name]="'Pastures'" 
-        [initialValue]="0" 
+        [initialValue]="player.pastureNum" 
         [keys]="'0 1 2 3 4'" 
         [values]="'-1 1 2 3 4'" 
         (scoreUpdated)="updateScore('Pastures', $event)">

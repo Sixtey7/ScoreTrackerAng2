@@ -1,5 +1,6 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { SingleScoreComponent, RangeScoreComponent } from '../../scores/scores';
+import { Player } from '../../shared/shared';
 
 @Component({
     selector: 'agricola-scores',
@@ -11,6 +12,7 @@ export default class AgricolaScoreComponent {
     totalScore: number;
     currentValues: Map<string, number>;
 
+    @Input() player: Player;
     @Output() totalScoreUpdated: EventEmitter<number>;
 
     constructor() {
