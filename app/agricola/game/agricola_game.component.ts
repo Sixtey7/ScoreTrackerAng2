@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import AgricolaPlayerComponent from '../player/agricola_player.component';
-import AgricolaPlayer from '../player/agricola_player';
-import AgricolaService from './service/agricola_service';
+import { AgricolaServerPlayerResult, AgricolaPlayer }from '../agricola';
+import AgricolaService from '../service/agricola_service';
 import { GameList ,Modal, PromptUsername, ServerGame, ServerPlayer } from '../../shared/shared';
 import { Http } from '@angular/http';
 import { RouteParams} from '@angular/router-deprecated';
+import { AgricolaServerGame } from '../agricola';
 
 @Component({
     selector: 'agricola-game',
@@ -27,7 +28,7 @@ export default class AgricolaGameComponent implements OnInit {
 
         if (gameId !== undefined) {
             console.log('ngOnInit found the id: ' + gameId);
-            this.standardService.getGame(gameId)
+            this.agricolaService.getGame(gameId)
                 .subscribe(
                     response => {
                         this.loadGame(response);
@@ -40,7 +41,7 @@ export default class AgricolaGameComponent implements OnInit {
         else { 
             console.log('ngOninit did not find a game id');
 
-            this.standardService.beginGame(GameList.AGRICOLA.toString())
+            this.agricolaService.beginGame()
                     .subscribe(
                         response => this.extractGameId(response),
                         error => console.log('ERROR: ' + error));
@@ -53,8 +54,7 @@ export default class AgricolaGameComponent implements OnInit {
             //we could copy the entire object here, but for now, just copying the value out
             this.currentPlayers[index].score = updatedPlayer.score;
 
-            this.standardService.updateScoreForPlayer(this.gameId, updatedPlayer.id, updatedPlayer.score)
-                .subscribe();
+            this.agricolaService.updateScoreForPlayer(this.gameId, updatedPlayer);
         }
         else {
             //if we ever decide to implement a rename through this route, then this is a good place to update
@@ -74,7 +74,7 @@ export default class AgricolaGameComponent implements OnInit {
         //this.currentPlayers.push(newUser);
         console.log('calling the backend!');
 
-        this.standardService.addPlayer(this.gameId, playerName)
+        this.agricolaService.addPlayer(this.gameId, playerName)
                     .subscribe(
                         response => {
                             console.log('Got from server: ' + JSON.stringify(response));
@@ -92,7 +92,7 @@ export default class AgricolaGameComponent implements OnInit {
         console.log('Got the ID: ' + JSON.stringify(this.gameId));
     }
 
-    private loadGame(gameResponse: ServerGame) {
+    private loadGame(gameResponse: AgricolaServerGame) {
         console.log('loading game with id: ' + gameResponse._id);
 
         this.gameId = gameResponse._id;
@@ -104,7 +104,7 @@ export default class AgricolaGameComponent implements OnInit {
             playerIds.push(gameResponse.playerResults[x].playerId.toString());
         }
 
-        this.standardService.getPlayers(playerIds)
+        this.agricolaService.getPlayers(playerIds)
             .subscribe(response => {
                 for (let y: number = 0; y < response.length; y++) {
                     //find the matching playerResults
