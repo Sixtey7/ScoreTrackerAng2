@@ -54,7 +54,11 @@ export default class AgricolaGameComponent implements OnInit {
             //we could copy the entire object here, but for now, just copying the value out
             this.currentPlayers[index].score = updatedPlayer.score;
 
-            this.agricolaService.updateScoreForPlayer(this.gameId, updatedPlayer);
+            console.log('calling the backend to update the score');
+
+            this.agricolaService.updateScoreForPlayer(this.gameId, updatedPlayer)
+                .subscribe(response => console.log('Sucessfully updated score on backend'), 
+                            error => console.error('error updating the backend: ' + error));
         }
         else {
             //if we ever decide to implement a rename through this route, then this is a good place to update
@@ -104,22 +108,24 @@ export default class AgricolaGameComponent implements OnInit {
             playerIds.push(gameResponse.playerResults[x].playerId.toString());
         }
 
-        this.agricolaService.getPlayers(playerIds)
-            .subscribe(response => {
-                for (let y: number = 0; y < response.length; y++) {
-                    //find the matching playerResults
-                    let playerResultPos: number = -1;
-                    //TODO: could cache a map of player ids to positions above, or make an array, or something to make this faster
-                    for (playerResultPos = 0; playerResultPos < gameResponse.playerResults.length; playerResultPos++) {
-                        if (gameResponse.playerResults[playerResultPos].playerId === response[y]._id) {
-                            break;
+        if (playerIds.length > 0) {
+            this.agricolaService.getPlayers(playerIds)
+                .subscribe(response => {
+                    for (let y: number = 0; y < response.length; y++) {
+                        //find the matching playerResults
+                        let playerResultPos: number = -1;
+                        //TODO: could cache a map of player ids to positions above, or make an array, or something to make this faster
+                        for (playerResultPos = 0; playerResultPos < gameResponse.playerResults.length; playerResultPos++) {
+                            if (gameResponse.playerResults[playerResultPos].playerId === response[y]._id) {
+                                break;
+                            }
                         }
-                    }
 
-                    let newPlayer: AgricolaPlayer = new AgricolaPlayer(response[y]._id, response[y].name, gameResponse.playerResults[playerResultPos].score);
-                    this.currentPlayers.push(newPlayer);
-                }
-            }, 
-            error => console.error('GOT AN ERROR: ' + error));
+                        let newPlayer: AgricolaPlayer = new AgricolaPlayer(response[y]._id, response[y].name, gameResponse.playerResults[playerResultPos].score);
+                        this.currentPlayers.push(newPlayer);
+                    }
+                }, 
+                error => console.error('GOT AN ERROR: ' + error));
+        }
     }
 }

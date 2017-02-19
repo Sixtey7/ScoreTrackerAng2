@@ -33,7 +33,6 @@ export default class AgricolaService {
         let params: URLSearchParams = new URLSearchParams();
         params.set('gameId', gameId);
         options.search = params;
-
         return this.http.get(this.agricolaUrl + '/currentScores', options)
             .map(this.extractJson)
             .catch(this.handleError);
@@ -67,7 +66,18 @@ export default class AgricolaService {
     }
 
     updateScoreForPlayer(gameId: string, player: AgricolaPlayer) {
-        //TODO: Do this
+        let options: RequestOptions = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
+
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('gameId', gameId);
+        options.search = params;
+
+        console.log('firing off the request to the backend!');
+
+
+        return this.http.post(this.agricolaUrl + '/setScore', JSON.stringify(player), options)
+            .map(this.extractStatus)
+            .catch(this.handleError);
     }
 
     //TODO These should be pulled to a common class that all these services extend
