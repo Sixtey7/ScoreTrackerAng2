@@ -16,7 +16,7 @@
 
     <!-- Grain -->
     <range-score [name]="'Grain'" 
-        [initialValue]="0" 
+        [initialValue]="player.grainNum" 
         [keys]="'0 1 4 6 8'" 
         [values]="'-1 1 2 3 4'" 
         (scoreUpdated)="updateScore('Grain', $event)">
@@ -24,7 +24,7 @@
 
     <!-- Vegtables -->
     <range-score [name]="'Vegtables'" 
-        [initialValue]="0" 
+        [initialValue]="player.vegNum" 
         [keys]="'0 1 2 3 4'" 
         [values]="'-1 1 2 3 4'" 
         (scoreUpdated)="updateScore('Vegtables', $event)">
@@ -32,7 +32,7 @@
 
     <!-- Sheep -->
     <range-score [name]="'Sheeples'" 
-        [initialValue]="0" 
+        [initialValue]="player.sheepNum" 
         [keys]="'0 1 4 6 8'" 
         [values]="'-1 1 2 3 4'" 
         (scoreUpdated)="updateScore('Sheeples', $event)">
@@ -40,7 +40,7 @@
 
     <!-- Wild Boar -->
     <range-score [name]="'Oinkles'" 
-        [initialValue]="0" 
+        [initialValue]="player.pigNum" 
         [keys]="'0 1 3 5 7'" 
         [values]="'-1 1 2 3 4'" 
         (scoreUpdated)="updateScore('Oinkles', $event)">
@@ -48,7 +48,7 @@
 
     <!-- Cattle -->
     <range-score [name]="'Mooples'" 
-        [initialValue]="0" 
+        [initialValue]="player.cowNum" 
         [keys]="'0 1 2 4 6'" 
         [values]="'-1 1 2 3 4'" 
         (scoreUpdated)="updateScore('Mooples', $event)">
@@ -57,51 +57,51 @@
     <!-- Unused Spaces -->
     <single-score [name]="'Unused'"
         [multiplier]="-1"
-        [initialValue]="0"
+        [initialValue]="player.unusedNum"
         (scoreUpdated)="updateScore('Unused', $event)">
     </single-score>
 
     <!-- Fenced Stables -->
     <single-score [name]="'Stables'"
         [multiplier]="1"
-        [initialValue]="0"
+        [initialValue]="player.stableNum"
         (scoreUpdated)="updateScore('Stables', $event)">
     </single-score>
 
     <!-- Clay Hut Rooms -->
     <single-score [name]="'Clay Room'"
         [multiplier]="1"
-        [initialValue]="0"
+        [initialValue]="player.clayNum"
         (scoreUpdated)="updateScore('Clay', $event)">
     </single-score>
 
     <!-- Stone Hut Rooms -->
     <single-score [name]="'Stone Room'"
         [multiplier]="2"
-        [initialValue]="0"
+        [initialValue]="player.stoneNum"
         (scoreUpdated)="updateScore('Stone', $event)">
     </single-score>
 
     <!-- Family Members -->
     <single-score [name]="'Family Members'"
         [multiplier]="3"
-        [initialValue]="2"
+        [initialValue]="player.familyNum"
         (scoreUpdated)="updateScore('Family', $event)">
     </single-score>
 
     <!-- Points for Cards -->
     <single-score [name]="'Card Points'"
         [multiplier]="1"
-        [initialValue]="0"
+        [initialValue]="player.cardNum"
         (scoreUpdated)="updateScore('Cards', $event)">
     </single-score>
 
     <!--Bonus Points -->
     <single-score [name]="'Bonus Points'"
         [multiplier]="1"
-        [initialValue]="0"
+        [initialValue]="player.bonusNum"
         (scoreUpdated)="updateScore('Bonus', $event)">
     </single-score>
 
     <!-- Total -->
-    <div class="panel-body totalScoreEle">Total: {{ totalScore }}</div>
+    <div class="panel-body totalScoreEle">Total: {{ player.score }}</div>

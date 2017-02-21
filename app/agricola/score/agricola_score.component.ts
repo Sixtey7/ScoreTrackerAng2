@@ -13,10 +13,11 @@ export default class AgricolaScoreComponent {
     currentValues: Map<string, number>;
 
     @Input() player: Player;
+
+    //TODO: This needs to be an EventEmitter of the player
     @Output() totalScoreUpdated: EventEmitter<number>;
 
     constructor() {
-        this.totalScore = 0;
         
         this.currentValues = new Map<string, number>();
 
@@ -40,8 +41,8 @@ export default class AgricolaScoreComponent {
             totalScore += value;
         });
 
-        this.totalScore = totalScore;
+        this.player.score = totalScore;
 
-        this.totalScoreUpdated.emit(this.totalScore);
+        this.totalScoreUpdated.emit(this.player.score);
     }
 }

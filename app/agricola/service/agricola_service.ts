@@ -52,7 +52,7 @@ export default class AgricolaService {
             .catch(this.handleError);
     }
 
-    addPlayer(gameId: string, playerName: string): Observable<ServerPlayer> {
+    addPlayer(gameId: string, playerName: string): Observable<AgricolaPlayer> {
         let options: RequestOptions = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
 
         let params: URLSearchParams = new URLSearchParams();

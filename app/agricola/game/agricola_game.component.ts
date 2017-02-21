@@ -80,9 +80,53 @@ export default class AgricolaGameComponent implements OnInit {
 
         this.agricolaService.addPlayer(this.gameId, playerName)
                     .subscribe(
-                        response => {
-                            console.log('Got from server: ' + JSON.stringify(response));
-                            this.currentPlayers.push(new AgricolaPlayer(response._id, response.name));
+                        playerObj => {
+                            //TODO: Need to fix this to not look this ugly
+                            console.log('Got from server: ' + JSON.stringify(playerObj));
+                            if (!playerObj.fieldsNum) {
+                                playerObj.fieldsNum = 0;
+                            }
+                            if (!playerObj.pastureNum) {
+                                playerObj.pastureNum = 0;
+                            }
+                            if (!playerObj.grainNum) {
+                                playerObj.grainNum = 0;
+                            }
+                            if (!playerObj.vegNum) {
+                                playerObj.vegNum = 0;
+                            }
+                            if (!playerObj.sheepNum) {
+                                playerObj.sheepNum = 0;
+                            }
+                            if (!playerObj.pigNum) {
+                                playerObj.pigNum = 0;
+                            }
+                            if (!playerObj.cowNum) {
+                                playerObj.cowNum = 0;
+                            }
+                            if (!playerObj.unusedNum) {
+                                playerObj.unusedNum = 0;
+                            }
+                            if (!playerObj.stableNum) {
+                                playerObj.stableNum = 0;
+                            }
+                            if (!playerObj.clayNum) {
+                                playerObj.clayNum = 0;
+                            }
+                            if (!playerObj.stoneNum) {
+                                playerObj.stoneNum = 0;
+                            }
+                            if (!playerObj.familyNum) {
+                                playerObj.familyNum = 0;
+                            }
+                            if (!playerObj.cardNum) {
+                                playerObj.cardNum = 0;
+                            }
+                            if (!playerObj.bonusNum) {
+                                playerObj.bonusNum = 0;
+                            }
+                            
+                            this.currentPlayers.push(playerObj);
                         },
                         error => console.log('ERROR: ' + error));
 

@@ -1,6 +1,8 @@
 import { Player } from '../../shared/shared';
 export default class AgricolaPlayer  extends Player {
 
+    _id: number | string;
+    playerId: number;
     fieldsNum: number;
     pastureNum: number;
     grainNum: number;
@@ -15,11 +17,4 @@ export default class AgricolaPlayer  extends Player {
     familyNum: number;
     cardNum: number;
     bonusNum: number;
-
-    constructor(id: string, name: string, score?: number) {
-        super(id, name, score);
-
-        this.fieldsNum = 5;
-        this.pastureNum = 8;
-    }
 }
