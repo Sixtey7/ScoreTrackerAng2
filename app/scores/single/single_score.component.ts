@@ -21,9 +21,10 @@ export default class SingleScoreComponent extends ScoreableComponent implements 
     @Input() initialValue: number;
     @Input() name: string;
 
-    @Output() scoreUpdated: EventEmitter<number>;
+    @Output() scoreUpdated: EventEmitter<number[]>;
 
-    currentValue: number;
+    currentNum: number;
+    currentScore: number;
     backingClass: SingleScore;
 
     constructor() {
@@ -31,7 +32,7 @@ export default class SingleScoreComponent extends ScoreableComponent implements 
 
         this.scoreUpdated = new EventEmitter();
 
-        this.currentValue = 0;
+        this.currentScore = 0;
     }
     ngOnInit(): void {
         if (this.multiplier !== undefined) {
@@ -40,20 +41,23 @@ export default class SingleScoreComponent extends ScoreableComponent implements 
         else {
             this.backingClass = new SingleScore(1);
         }
+
+        this.currentNum = this.initialValue;
         
-        this.currentValue = this.backingClass.calculateScore(this.initialValue);
+        this.currentScore = this.backingClass.calculateScore(this.currentNum);
 
         //initial emit to set the current value
-        this.scoreUpdated.emit(this.currentValue);
+        this.scoreUpdated.emit([this.currentNum, this.currentScore]);
     }
 
     valueUpdated(newValue: number): void {
         console.log('Value: ' + newValue);
-        this.backingClass.setCurrNum(newValue);
+        this.currentNum = newValue;
+        this.backingClass.setCurrNum(this.currentNum);
 
-        this.currentValue = this.backingClass.getScore();
+        this.currentScore = this.backingClass.getScore();
 
-        this.scoreUpdated.emit(this.currentValue);
+        this.scoreUpdated.emit([this.currentNum, this.currentScore ]);
 
     }
 }

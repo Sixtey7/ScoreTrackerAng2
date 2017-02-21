@@ -24,12 +24,12 @@ export default class AgricolaScoreComponent {
         this.totalScoreUpdated = new EventEmitter<AgricolaPlayer>();
     }
 
-    updateScore(pos: string, value: number): void {
+    updateScore(pos: string, value: number[]): void {
         console.log('Update Score called for position: ' + pos + ' and with value: ' + value);
-        this.currentValues.set(pos, value);
+        this.currentValues.set(pos, value[1]);
 
-        this.player[pos] = value;
-        this.currentValues[pos] = value;
+        this.player[pos] = value[0];
+        this.currentValues[pos] = value[1];
 
         this.updateTotalScore();
     }

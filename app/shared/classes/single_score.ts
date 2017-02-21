@@ -13,6 +13,10 @@ export default class SingleScore implements Scoreable {
     setCurrNum(value: number): void {
         this.currNum = value;
     }
+
+    getCurrNum(): number {
+        return this.currNum;
+    }
     
     calculateScore(value: number): number {
         this.currNum = value;

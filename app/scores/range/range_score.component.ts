@@ -15,20 +15,23 @@ export default class RangeScoreComponent extends ScoreableComponent implements O
     @Input() initialValue: number;
     @Input() name: string;
 
-    @Output() scoreUpdated: EventEmitter<number>;
+    @Output() scoreUpdated: EventEmitter<number[]>;
 
-    currentValue: number;
+    currentScore: number;
+    currentNum: number;
     backingClass: RangeScore;
 
     constructor() {
         super();
 
-        this.scoreUpdated = new EventEmitter<number>();
+        this.scoreUpdated = new EventEmitter<number[]>();
 
-        this.currentValue = 0;
+        this.currentScore = 0;
     }
 
     ngOnInit(): void {
+        this.currentNum = this.initialValue;
+
         //build the key-value pair map
         let valueMap: Map<number, number> = new Map<number, number>();
 
@@ -51,19 +54,21 @@ export default class RangeScoreComponent extends ScoreableComponent implements O
 
         //setup the backing class
         this.backingClass = new RangeScore(valueMap);
-        this.backingClass.setCurrNum(this.initialValue);
-        this.currentValue = this.backingClass.getScore();
 
-        this.scoreUpdated.emit(this.currentValue);
+        this.backingClass.setCurrNum(this.currentNum);
+        this.currentScore = this.backingClass.getScore();
+
+        this.scoreUpdated.emit([ this.currentNum, this.currentScore ]);
     }
 
     valueUpdated(newValue: number): void {
         console.log('Value: ' + newValue);
-        this.backingClass.setCurrNum(newValue);
+        this.currentNum = newValue;
+        this.backingClass.setCurrNum(this.currentNum);
 
-        this.currentValue = this.backingClass.getScore();
+        this.currentScore = this.backingClass.getScore();
 
-        this.scoreUpdated.emit(this.currentValue);
+        this.scoreUpdated.emit([ this.currentNum, this.currentScore ]);
 
     }
 }

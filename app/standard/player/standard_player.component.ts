@@ -22,8 +22,8 @@ export default class StandardPlayerComponent implements OnInit {
         //TODO: Do I actually need this?
     }
 
-    updateScore(score: number) {
-        this.player.score = score;
+    updateScore(score: number[]) {
+        this.player.score = score[1];
         this.playerScoreUpdated.emit(this.player);
     }
 

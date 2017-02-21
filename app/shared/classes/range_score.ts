@@ -29,6 +29,10 @@ export default class RangeScore implements Scoreable {
         return this.determineScore();
     }
 
+    getCurrNum(): number {
+        return this.currNum;
+    }
+
     private determineScore(): number {
         
         let smallestDifference: number = 9999;
