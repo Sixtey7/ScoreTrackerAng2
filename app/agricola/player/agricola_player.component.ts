@@ -22,11 +22,11 @@ export default class AgricolaPlayerComponent implements OnInit {
         //TODO: Do I actually need this?
     }
 
-    scoreUpdateNotification(score: number) {
+    scoreUpdateNotification(_player: AgricolaPlayer) {
         console.log('------------------------------------');
         console.log('Score updated for: ' + JSON.stringify(this.player));
         console.log('------------------------------------');
-        this.player.score = score;
+        this.player = _player;
 
         this.playerScoreUpdated.emit(this.player);
     }

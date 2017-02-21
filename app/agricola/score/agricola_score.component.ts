@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { SingleScoreComponent, RangeScoreComponent } from '../../scores/scores';
-import { Player } from '../../shared/shared';
+import { AgricolaPlayer } from '../agricola';
 
 @Component({
     selector: 'agricola-scores',
@@ -12,22 +12,24 @@ export default class AgricolaScoreComponent {
     totalScore: number;
     currentValues: Map<string, number>;
 
-    @Input() player: Player;
+    @Input() player: AgricolaPlayer;
 
     //TODO: This needs to be an EventEmitter of the player
-    @Output() totalScoreUpdated: EventEmitter<number>;
+    @Output() totalScoreUpdated: EventEmitter<AgricolaPlayer>;
 
     constructor() {
         
         this.currentValues = new Map<string, number>();
 
-        this.totalScoreUpdated = new EventEmitter<number>();
+        this.totalScoreUpdated = new EventEmitter<AgricolaPlayer>();
     }
 
     updateScore(pos: string, value: number): void {
         console.log('Update Score called for position: ' + pos + ' and with value: ' + value);
         this.currentValues.set(pos, value);
-        //this.currentValues[pos] = value;
+
+        this.player[pos] = value;
+        this.currentValues[pos] = value;
 
         this.updateTotalScore();
     }
@@ -43,6 +45,6 @@ export default class AgricolaScoreComponent {
 
         this.player.score = totalScore;
 
-        this.totalScoreUpdated.emit(this.player.score);
+        this.totalScoreUpdated.emit(this.player);
     }
 }

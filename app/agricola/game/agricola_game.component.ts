@@ -117,7 +117,7 @@ export default class AgricolaGameComponent implements OnInit {
                                 playerObj.stoneNum = 0;
                             }
                             if (!playerObj.familyNum) {
-                                playerObj.familyNum = 0;
+                                playerObj.familyNum = 2;
                             }
                             if (!playerObj.cardNum) {
                                 playerObj.cardNum = 0;
