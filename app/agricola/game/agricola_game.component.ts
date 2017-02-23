@@ -127,6 +127,8 @@ export default class AgricolaGameComponent implements OnInit {
                                 playerObj.bonusNum = 0;
                             }
                             
+                            this.playerService.addPlayer(playerObj.playerId.toString(), playerName);
+                            playerObj.name = playerName;
                             this.currentPlayers.push(playerObj);
                         },
                         error => console.log('ERROR: ' + error));
@@ -152,6 +154,7 @@ export default class AgricolaGameComponent implements OnInit {
                 this.playerForId(gameResponse.playerResults[x].playerId.toString()), 
                 gameResponse.playerResults[x].score);
             
+            //TODO: Somewhere around here I'm adding 10,000 new players
             console.log('created the new player: ' + JSON.stringify(newPlayer));
             this.currentPlayers.push(newPlayer);
 
