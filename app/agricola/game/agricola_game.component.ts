@@ -6,11 +6,12 @@ import { GameList ,Modal, PromptUsername, ServerGame, ServerPlayer } from '../..
 import { Http } from '@angular/http';
 import { RouteParams} from '@angular/router-deprecated';
 import { AgricolaServerGame } from '../agricola';
+import { PlayerService } from '../../players/players';
 
 @Component({
     selector: 'agricola-game',
     directives: [ AgricolaPlayerComponent, Modal ],
-    providers: [ AgricolaService ],
+    providers: [ AgricolaService, PlayerService ],
     styleUrls: [ 'app/style/app.style.css', 'app/agricola/game/agricola_game.component.css' ],
     templateUrl: 'app/agricola/game/agricola_game.component.html'
 })
@@ -19,7 +20,7 @@ export default class AgricolaGameComponent implements OnInit {
     gameId: string;
     @ViewChild(Modal) modal;
 
-    constructor(private agricolaService: AgricolaService, private routeParams: RouteParams) {
+    constructor(private agricolaService: AgricolaService, private routeParams: RouteParams, private playerService: PlayerService) {
         this.currentPlayers = new Array<AgricolaPlayer>();
     }
 
@@ -129,10 +130,6 @@ export default class AgricolaGameComponent implements OnInit {
                             this.currentPlayers.push(playerObj);
                         },
                         error => console.log('ERROR: ' + error));
-
-        //let data = this.agricolaService.beginGame();
-
-        //console.log('Data: ' + JSON.stringify(data));
     }
 
     private extractGameId(responseString: string) {
@@ -150,26 +147,19 @@ export default class AgricolaGameComponent implements OnInit {
         for (let x: number =0; x < gameResponse.playerResults.length; x++) {
             console.log('Adding the playerId: ' + gameResponse.playerResults[x].playerId.toString());
             playerIds.push(gameResponse.playerResults[x].playerId.toString());
-        }
 
-        if (playerIds.length > 0) {
-            this.agricolaService.getPlayers(playerIds)
-                .subscribe(response => {
-                    for (let y: number = 0; y < response.length; y++) {
-                        //find the matching playerResults
-                        let playerResultPos: number = -1;
-                        //TODO: could cache a map of player ids to positions above, or make an array, or something to make this faster
-                        for (playerResultPos = 0; playerResultPos < gameResponse.playerResults.length; playerResultPos++) {
-                            if (gameResponse.playerResults[playerResultPos].playerId === response[y]._id) {
-                                break;
-                            }
-                        }
+            let newPlayer: AgricolaPlayer = new AgricolaPlayer(gameResponse.playerResults[x].playerId.toString(), 
+                this.playerForId(gameResponse.playerResults[x].playerId.toString()), 
+                gameResponse.playerResults[x].score);
+            
+            console.log('created the new player: ' + JSON.stringify(newPlayer));
+            this.currentPlayers.push(newPlayer);
 
-                        let newPlayer: AgricolaPlayer = new AgricolaPlayer(response[y]._id, response[y].name, gameResponse.playerResults[playerResultPos].score);
-                        this.currentPlayers.push(newPlayer);
-                    }
-                }, 
-                error => console.error('GOT AN ERROR: ' + error));
         }
+    }
+
+    private playerForId(_id: string): string {
+        console.log('getting player for id: ' + _id);
+        return this.playerService.getName(_id);
     }
 }

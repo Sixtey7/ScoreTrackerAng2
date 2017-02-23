@@ -10,6 +10,7 @@ import AgricolaPlayer from './agricola_player';
 })
 export default class AgricolaPlayerComponent implements OnInit {
     @Input() player: AgricolaPlayer;
+    @Input() playerName: string;
 
     @Output() playerScoreUpdated: EventEmitter<AgricolaPlayer>;
 

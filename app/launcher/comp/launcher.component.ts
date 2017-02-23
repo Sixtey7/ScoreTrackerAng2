@@ -28,22 +28,12 @@ export default class LauncherComponent implements OnInit {
     ngOnInit(): void {
         this.launcherService.getAllGames()
             .subscribe(
+                //TODO: this service call should probably not return all players now
                 response => {
-                    //TODO: Handle parsing out response.players
-      //              this.extractAllPlayers(response.players);
                     this.extractAllGames(response.gameResults);
                 },
                 error => console.log('ERROR: ' + error));
     }
-/*
-
-    private extractAllPlayers(players: ServerPlayer[]) {
-        for (let x: number = 0; x < players.length; x++) {
-            console.log('putting ' + players[x].name + ' in at ' + players[x]._id);
-            this.allPlayers[players[x]._id] = players[x].name;
-        }
-    }
-    */
 
     private extractAllGames(response : ServerGame[]) {
         console.log('\n---------\nGOT ALL GAMES\n' + JSON.stringify(response) + '\n---------');
