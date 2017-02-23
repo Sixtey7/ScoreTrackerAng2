@@ -13,7 +13,7 @@
             <td>{{ game.date }}</td>
             <td>
                 <div *ngFor = "let player of game.playerResults">
-                    {{ allPlayers[player.playerId] }} : {{ player.score }}
+                    {{ playerForId(player.playerId) }} : {{ player.score }}
                 </div>
             </td>
             <td>

@@ -4,11 +4,13 @@ import { GameList, Modal, ServerGame, ServerPlayer, ServerTotal } from '../../sh
 import { Router } from '@angular/router-deprecated';
 import PromptGameSelection from './game_select_modal';
 
+import { PlayerService } from '../../players/players';
+
 
 @Component({
     selector: 'launcher-component',
     directives: [ Modal ],
-    providers: [LauncherService],
+    providers: [LauncherService, PlayerService],
     styleUrls: [ 'app/style/app.style.css', 'app/launcher/comp/launcher.component.css'],
     templateUrl: 'app/launcher/comp/launcher.component.html'
 })
@@ -18,7 +20,7 @@ export default class LauncherComponent implements OnInit {
 
     @ViewChild(Modal) modal;
 
-    constructor(private launcherService: LauncherService, private router: Router) {
+    constructor(private launcherService: LauncherService, private router: Router, private playerService: PlayerService) {
         this.allGames = new Array<ServerGame>();
         this.allPlayers = {};
     }
@@ -28,12 +30,12 @@ export default class LauncherComponent implements OnInit {
             .subscribe(
                 response => {
                     //TODO: Handle parsing out response.players
-                    this.extractAllPlayers(response.players);
+      //              this.extractAllPlayers(response.players);
                     this.extractAllGames(response.gameResults);
                 },
                 error => console.log('ERROR: ' + error));
     }
-
+/*
 
     private extractAllPlayers(players: ServerPlayer[]) {
         for (let x: number = 0; x < players.length; x++) {
@@ -41,6 +43,7 @@ export default class LauncherComponent implements OnInit {
             this.allPlayers[players[x]._id] = players[x].name;
         }
     }
+    */
 
     private extractAllGames(response : ServerGame[]) {
         console.log('\n---------\nGOT ALL GAMES\n' + JSON.stringify(response) + '\n---------');
@@ -85,6 +88,10 @@ export default class LauncherComponent implements OnInit {
         else {
             this.router.navigate(['StandardGameRouterComponent', 'NewGame', { gameName: game.toString()}]);
         }
+    }
+
+    playerForId(_id: string) : string {
+        return this.playerService.getName(_id);
     }
 
 }
