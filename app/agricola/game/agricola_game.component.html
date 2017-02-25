@@ -1,6 +1,6 @@
 <span *ngFor = "let player of currentPlayers; let i = index;">
     <div class="col-xs-3">
-        <agricola-player [player]="player" [playerName]="playerForId(player.id)" (playerScoreUpdated)="playerScoreUpdated(i, $event)"></agricola-player>
+        <agricola-player [player]="player" [playerName]="playerForId(player.playerId)" (playerScoreUpdated)="playerScoreUpdated(i, $event)"></agricola-player>
     </div>
 </span> 
 

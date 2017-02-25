@@ -2,7 +2,7 @@ import { Player } from '../../shared/shared';
 export default class AgricolaPlayer  extends Player {
 
     _id: number | string;
-    playerId: number;
+    playerId: string;
     fieldsNum: number;
     pastureNum: number;
     grainNum: number;
