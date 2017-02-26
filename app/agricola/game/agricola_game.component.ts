@@ -81,55 +81,8 @@ export default class AgricolaGameComponent implements OnInit {
 
         this.agricolaService.addPlayer(this.gameId, playerName)
                     .subscribe(
-                        playerObj => {
-                            //TODO: Need to fix this to not look this ugly
-                            console.log('Got from server: ' + JSON.stringify(playerObj));
-                            if (!playerObj.fieldsNum) {
-                                playerObj.fieldsNum = 0;
-                            }
-                            if (!playerObj.pastureNum) {
-                                playerObj.pastureNum = 0;
-                            }
-                            if (!playerObj.grainNum) {
-                                playerObj.grainNum = 0;
-                            }
-                            if (!playerObj.vegNum) {
-                                playerObj.vegNum = 0;
-                            }
-                            if (!playerObj.sheepNum) {
-                                playerObj.sheepNum = 0;
-                            }
-                            if (!playerObj.pigNum) {
-                                playerObj.pigNum = 0;
-                            }
-                            if (!playerObj.cowNum) {
-                                playerObj.cowNum = 0;
-                            }
-                            if (!playerObj.unusedNum) {
-                                playerObj.unusedNum = 0;
-                            }
-                            if (!playerObj.stableNum) {
-                                playerObj.stableNum = 0;
-                            }
-                            if (!playerObj.clayNum) {
-                                playerObj.clayNum = 0;
-                            }
-                            if (!playerObj.stoneNum) {
-                                playerObj.stoneNum = 0;
-                            }
-                            if (!playerObj.familyNum) {
-                                playerObj.familyNum = 2;
-                            }
-                            if (!playerObj.cardNum) {
-                                playerObj.cardNum = 0;
-                            }
-                            if (!playerObj.bonusNum) {
-                                playerObj.bonusNum = 0;
-                            }
-                            
-                            this.playerService.addPlayer(playerObj.playerId.toString(), playerName);
-                            playerObj.name = playerName;
-
+                        serverPlayerObj => {
+                            let playerObj: AgricolaPlayer = AgricolaPlayer.fromServerObject(serverPlayerObj,serverPlayerObj['id'], playerName);
 
                             console.log('pushing player: ' + JSON.stringify(playerObj));
                             this.currentPlayers.push(playerObj);
@@ -153,11 +106,9 @@ export default class AgricolaGameComponent implements OnInit {
             console.log('Adding the playerId: ' + gameResponse.playerResults[x].playerId.toString());
             playerIds.push(gameResponse.playerResults[x].playerId.toString());
 
-            let newPlayer: AgricolaPlayer = new AgricolaPlayer(gameResponse.playerResults[x].playerId.toString(), 
-                this.playerForId(gameResponse.playerResults[x].playerId.toString()), 
-                gameResponse.playerResults[x].score);
-
-            newPlayer.playerId = gameResponse.playerResults[x].playerId.toString();
+            let newPlayer: AgricolaPlayer = AgricolaPlayer.fromServerObject(gameResponse.playerResults[x], 
+                gameResponse.playerResults[x].playerId.toString(), 
+                this.playerForId(gameResponse.playerResults[x].playerId.toString()));
             
             console.log('created the new player: ' + JSON.stringify(newPlayer));
             this.currentPlayers.push(newPlayer);
