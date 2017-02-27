@@ -82,8 +82,8 @@ export default class AgricolaGameComponent implements OnInit {
         this.agricolaService.addPlayer(this.gameId, playerName)
                     .subscribe(
                         serverPlayerObj => {
-                            let playerObj: AgricolaPlayer = AgricolaPlayer.fromServerObject(serverPlayerObj,serverPlayerObj['id'], playerName);
-
+                            let playerObj: AgricolaPlayer = AgricolaPlayer.fromServerObject(serverPlayerObj,serverPlayerObj['playerId'], playerName);
+                            this.playerService.addPlayer(serverPlayerObj['playerId'], playerName);
                             console.log('pushing player: ' + JSON.stringify(playerObj));
                             this.currentPlayers.push(playerObj);
                         },

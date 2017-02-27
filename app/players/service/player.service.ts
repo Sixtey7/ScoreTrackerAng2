@@ -51,8 +51,13 @@ export class PlayerService {
     }
 
     public addPlayer(_id: string, _name: string) {
+        console.log('called to add ' + _name + ' + for id ' + _id);
         if (!this.allPlayers[_id]) {
+            console.log('added!');
             this.allPlayers[_id] = _name;
+        }
+        else {
+            console.log('id already exists for player: ' + this.allPlayers[_id]);
         }
     }
 }

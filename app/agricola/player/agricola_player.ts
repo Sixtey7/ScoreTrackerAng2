@@ -119,7 +119,7 @@ export default class AgricolaPlayer  extends Player {
             returnVal.bonusNum = 0;
         }
 
-        returnVal.playerId = serverObj['playerId'];
+        returnVal.playerId = playerId;
 
         return returnVal;
     }
