@@ -18,6 +18,7 @@ import { PlayerService } from '../../players/players';
 export default class AgricolaGameComponent implements OnInit {
     currentPlayers: AgricolaPlayer[];
     gameId: string;
+    navBarTitle = 'Agricola Game';
     @ViewChild(Modal) modal;
 
     constructor(private agricolaService: AgricolaService, private routeParams: RouteParams, private playerService: PlayerService) {
