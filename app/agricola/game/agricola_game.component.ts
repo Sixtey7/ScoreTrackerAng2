@@ -121,4 +121,8 @@ export default class AgricolaGameComponent implements OnInit {
         console.log('getting player for id: ' + _id);
         return this.playerService.getName(_id);
     }
+
+    sayHelloWorld() {
+        console.log('HELLO WORLD');
+    }
 }
