@@ -87,10 +87,23 @@ export default class AgricolaService {
         params.set('gameId', gameId);
         options.search = params;
 
+        //turn the AgricolaPlayers back into ServerAgricolaPlayerResult
+        let serverArray: AgricolaServerPlayerResult[] = new Array<AgricolaServerPlayerResult>();
+
+        for (let x: number = 0; x < playerArray.length; x++) {
+            //bonusing off the fact that every property is named the same here
+            let newServerPlayerResult: AgricolaServerPlayerResult = JSON.parse(JSON.stringify(playerArray[x]));
+            //since we parsed a player into a server player, we have a bit of props to fix
+            newServerPlayerResult.id = null;
+            newServerPlayerResult.playerId = playerArray[x].id;
+
+            //and insert into the Array
+            serverArray.push(newServerPlayerResult);
+        }
         console.log('firing off the request to the backend to save the game!');
 
 
-        return this.http.post(this.agricolaUrl + '/save', JSON.stringify(playerArray), options)
+        return this.http.post(this.agricolaUrl + '/save', JSON.stringify(serverArray), options)
             .map(this.extractStatus)
             .catch(this.handleError);
     }
