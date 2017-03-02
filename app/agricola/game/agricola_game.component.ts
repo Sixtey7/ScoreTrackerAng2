@@ -3,8 +3,8 @@ import AgricolaPlayerComponent from '../player/agricola_player.component';
 import { AgricolaServerPlayerResult, AgricolaPlayer }from '../agricola';
 import AgricolaService from '../service/agricola_service';
 import { GameList ,Modal, PromptUsername, ServerGame, ServerPlayer } from '../../shared/shared';
-import { Http } from '@angular/http';
 import { RouteParams} from '@angular/router-deprecated';
+import { Http } from '@angular/http';
 import { AgricolaServerGame } from '../agricola';
 import { PlayerService } from '../../players/players';
 
@@ -51,16 +51,10 @@ export default class AgricolaGameComponent implements OnInit {
         
     }
 
-    playerScoreUpdated(index: number, updatedPlayer: AgricolaPlayer):void {
+    playerScoreUpdated(index: number, updatedPlayer: AgricolaPlayer): void {
         if (this.currentPlayers[index].name === updatedPlayer.name) {
             //we could copy the entire object here, but for now, just copying the value out
             this.currentPlayers[index].score = updatedPlayer.score;
-
-            console.log('calling the backend to update the score');
-
-            this.agricolaService.updateScoreForPlayer(this.gameId, updatedPlayer)
-                .subscribe(response => console.log('Sucessfully updated score on backend'), 
-                            error => console.error('error updating the backend: ' + error));
         }
         else {
             //if we ever decide to implement a rename through this route, then this is a good place to update
@@ -122,7 +116,17 @@ export default class AgricolaGameComponent implements OnInit {
         return this.playerService.getName(_id);
     }
 
-    sayHelloWorld() {
-        console.log('HELLO WORLD');
+    private saveGame() {
+        console.log('Saving the game!');
+
+        this.agricolaService.saveGame(this.gameId, this.currentPlayers)
+            .subscribe(result => {
+                console.log('Got the result from saving: ' + result);
+            },
+            error => {
+                console.error('Got the error from saving: ' + error);
+            });
+
+        console.log('Have the following in the collection\n' + JSON.stringify(this.currentPlayers));
     }
 }

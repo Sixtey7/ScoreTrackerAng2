@@ -80,6 +80,21 @@ export default class AgricolaService {
             .catch(this.handleError);
     }
 
+    saveGame(gameId: string, playerArray: AgricolaPlayer[]) {
+        let options: RequestOptions = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
+
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('gameId', gameId);
+        options.search = params;
+
+        console.log('firing off the request to the backend to save the game!');
+
+
+        return this.http.post(this.agricolaUrl + '/save', JSON.stringify(playerArray), options)
+            .map(this.extractStatus)
+            .catch(this.handleError);
+    }
+
     //TODO These should be pulled to a common class that all these services extend
     private extractStatus(res: Response) {
         //TODO: need to actually pull the status out of here
