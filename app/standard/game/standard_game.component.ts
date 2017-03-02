@@ -106,24 +106,27 @@ export default class StandardGameComponent implements OnInit {
             playerIds.push(gameResponse.playerResults[x].playerId.toString());
         }
 
-        this.standardService.getPlayers(playerIds)
-            .subscribe(
-                response => {
-                    for (let y: number=0; y < response.length; y++) {
-                        let playerResultPos = -1;
-                        for (playerResultPos = 0; playerResultPos < gameResponse.playerResults.length; playerResultPos++) {
-                            if (gameResponse.playerResults[playerResultPos].playerId === response[y]._id) {
-                                break;
-                            }
-                        }
+        if (playerIds.length > 0) {
 
-                        let newPlayer: Player = new Player(response[y]._id, response[y].name, gameResponse.playerResults[playerResultPos].score);
-                        this.currentPlayers.push(newPlayer);
+            this.standardService.getPlayers(playerIds)
+                .subscribe(
+                    response => {
+                        for (let y: number=0; y < response.length; y++) {
+                            let playerResultPos = -1;
+                            for (playerResultPos = 0; playerResultPos < gameResponse.playerResults.length; playerResultPos++) {
+                                if (gameResponse.playerResults[playerResultPos].playerId === response[y]._id) {
+                                    break;
+                                }
+                            }
+
+                            let newPlayer: Player = new Player(response[y]._id, response[y].name, gameResponse.playerResults[playerResultPos].score);
+                            this.currentPlayers.push(newPlayer);
+                        }
+                    },
+                    error => {
+                        console.error('Got an error attempting to retrieve players from the backend!');
                     }
-                },
-                error => {
-                    console.error('Got an error attempting to retrieve players from the backend!');
-                }
-            );
+                );
+        }
     }
 }

@@ -41,7 +41,7 @@ export default class LauncherComponent implements OnInit {
         console.log(typeof response);
 
         for (let x: number = 0; x < response.length; x++) {
-            response[x].gameString = GameList[response[x].game].toString();
+            response[x].gameString = GameList.toReadableString(GameList[GameList[response[x].game]]);
             this.allGames.push(response[x]);
         }
         

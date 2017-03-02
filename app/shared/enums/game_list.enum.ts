@@ -21,7 +21,24 @@ namespace GameList {
         }
     }
 
+    export function fromPosition(_position: number): GameList {
+        console.log('looking at the number: ' + _position);
+        switch(_position) {
+            case 0:
+                return GameList.AGRICOLA;
+            case 1:
+                return GameList.CARCASSONNE;
+            case 2:
+                return GameList.LORDS_OF_WATERDEEP;
+            case 3:
+                return GameList.CASTLES_OF_BURGANDY;
+            default:
+                return null;
+        }
+    }
+
     export function toReadableString(_gameList: GameList): string {
+        console.log('got the gamelist: ' + _gameList);
         switch(_gameList) {
             case GameList.AGRICOLA:
                 return "AGRICOLA";
