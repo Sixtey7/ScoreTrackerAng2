@@ -61,7 +61,7 @@ export default class LauncherComponent implements OnInit {
     promptForGame(): void {
         console.log('Prompting for which game!');
 
-        this.modal.modalTitle = "Enter Name";
+        this.modal.modalTitle = "Select Game To Begin";
         this.modal.modalFooter = false;
         this.modal.modalMessage = false;
         this.modal.open(PromptGameSelection); 

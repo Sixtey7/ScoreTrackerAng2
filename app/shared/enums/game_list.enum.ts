@@ -35,6 +35,18 @@ namespace GameList {
                 return "UNDEFINED";
         }
     }
+
+    export function allStrings(): string[] {
+        let returnString: string[] = new Array<string>();
+
+        returnString.push(GameList.toReadableString(GameList.AGRICOLA));
+        returnString.push(GameList.toReadableString(GameList.CARCASSONNE));
+        returnString.push(GameList.toReadableString(GameList.LORDS_OF_WATERDEEP));
+        returnString.push(GameList.toReadableString(GameList.CASTLES_OF_BURGANDY));
+
+
+        return returnString;
+    }
 };
 
 export {

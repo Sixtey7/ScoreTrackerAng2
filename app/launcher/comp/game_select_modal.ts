@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
 
-import { Modal } from '../../shared/shared';
+import { Modal, GameList } from '../../shared/shared';
 
 @Component({
     selector: 'prompt-game',
     template: `
         <div class="form-group">
-            <input list="gameList" #response name="gameName">
+            <input class="form-control" list="gameList" #response name="gameName">
             <datalist id="gameList">
-                <option value="Agricola">
-                <option value="Carcassonne">
-                <option value="Lords of Waterdeep">
+                <option *ngFor = "let gameEnumItem of enumList">
+                    {{ gameEnumItem }}
+                </option>
             </datalist>
         </div>
         <div class="form-group">
@@ -23,9 +23,10 @@ import { Modal } from '../../shared/shared';
 })
 export default class PromptGameSelection {
 
+    private enumList: string[];
     constructor(public _modal: Modal) {
+        this.enumList = GameList.allStrings();
     }
-
     close() {
         this._modal.close();
     }
