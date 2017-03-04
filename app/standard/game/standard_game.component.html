@@ -1,3 +1,13 @@
+<nav class = "navbar navbar-default navbar-static-top">
+    <div class="container-fluid">
+        <div class = "navbar-header">
+            <strong class = "navbar-brand">{{ navBarTitle }}</strong>
+        </div>
+        <ul class = "nav navbar-nav navbar-right">
+            <li><a (click)="saveGame()">Save!</a></li>
+        </ul>
+    </div>
+</nav>
 <span *ngFor = "let player of currentPlayers; let i = index;">
     <div class="col-xs-3">
         <standard-player [player]="player" (playerScoreUpdated)="playerScoreUpdated(i, $event)"></standard-player>
