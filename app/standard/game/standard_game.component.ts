@@ -66,8 +66,8 @@ export default class StandardGameComponent implements OnInit {
         if (this.currentPlayers[index].name === updatedPlayer.name) {
             this.currentPlayers[index].score = updatedPlayer.score;
 
-            this.standardService.updateScoreForPlayer(this.gameId, updatedPlayer.id, updatedPlayer.score)
-                .subscribe();
+            //this.standardService.updateScoreForPlayer(this.gameId, updatedPlayer.id, updatedPlayer.score)
+             //   .subscribe();
         }
         else {
             //TODO: if we ever want to create a rename through this route, this is the place to do so
@@ -128,5 +128,17 @@ export default class StandardGameComponent implements OnInit {
                     }
                 );
         }
+    }
+
+    private saveGame() {
+        console.log('Saving the game!');
+
+        this.standardService.saveGame(this.gameId, this.currentPlayers)
+            .subscribe(result => {
+                console.log('Got the result from saving: ' + result);
+            },
+            error => {
+                console.error('Got the error from saving: ' + error);
+            });
     }
 }

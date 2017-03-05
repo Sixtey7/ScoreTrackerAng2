@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, URLSearchParams, RequestOptions, Headers } from '@angular/http';
 
-import { ServerGame, ServerPlayer } from '../../shared/shared';
+import { ServerGame, ServerPlayer, Player } from '../../shared/shared';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
@@ -83,6 +83,18 @@ export class StandardService {
         return this.http.post(this.standardUrl + '/setScore', null, options)
                         .map(this.extractStatus)
                         .catch(this.handleError);
+    }
+
+    saveGame(_gameId: string, _currentPlayers: Player[]) {
+        let options: RequestOptions = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
+
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('gameId', _gameId);
+        options.search = params;
+
+        return this.http.post(this.standardUrl + '/save', JSON.stringify(_currentPlayers), options)
+            .map(this.extractStatus)
+            .catch(this.handleError);
     }
 
     private extractStatus(res: Response) {
