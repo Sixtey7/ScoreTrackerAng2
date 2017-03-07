@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, URLSearchParams, RequestOptions, Headers } from '@angular/http';
 
-import { ServerGame, ServerPlayer, Player } from '../../shared/shared';
+import { ServerGame, ServerPlayer, Player, ServerPlayerResult } from '../../shared/shared';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
@@ -92,7 +92,14 @@ export class StandardService {
         params.set('gameId', _gameId);
         options.search = params;
 
-        return this.http.post(this.standardUrl + '/save', JSON.stringify(_currentPlayers), options)
+        //convert players to serverplayerresult
+        let serverPlayerResultArray: ServerPlayerResult[] = new Array<ServerPlayerResult>();
+        for (let x: number = 0; x < _currentPlayers.length; x++) {
+            let newServerPlayerResult: ServerPlayerResult = new ServerPlayerResult(_currentPlayers[x].id, _currentPlayers[x].score);
+            serverPlayerResultArray.push(newServerPlayerResult);
+        }
+
+        return this.http.post(this.standardUrl + '/save', JSON.stringify(serverPlayerResultArray), options)
             .map(this.extractStatus)
             .catch(this.handleError);
     }
