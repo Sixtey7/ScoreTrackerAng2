@@ -15,6 +15,7 @@ import { RouteParams } from '@angular/router-deprecated';
 export default class StandardGameComponent implements OnInit {
     currentPlayers: Player[];
     gameId: string;
+    activeGameName: string;
     private game: GameList;
     @ViewChild(Modal) modal;
 
@@ -46,6 +47,8 @@ export default class StandardGameComponent implements OnInit {
                 //this.game = GameList.fromReadableString(gameName);
                 this.game = GameList[gameName];
                 console.log('Built the game: ' + GameList.toReadableString(this.game));
+                this.activeGameName = GameList.allStrings()[gameName];
+                console.log('built the active game name: ' + this.activeGameName);
                 this.standardService.beginGame(this.game.toString())
                     .subscribe(
                         response => {
@@ -99,6 +102,8 @@ export default class StandardGameComponent implements OnInit {
 
     private loadGame(gameResponse: ServerGame) {
         this.gameId = gameResponse._id;
+        console.log('Setting activeGameName to: ' + GameList.allStrings()[gameResponse.game]);
+        this.activeGameName = GameList.allStrings()[gameResponse.game];
 
         let playerIds: string[] = new Array<string>();
 
