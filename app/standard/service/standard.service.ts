@@ -104,6 +104,12 @@ export class StandardService {
             .catch(this.handleError);
     }
 
+    getAllGameDefs() {
+        return this.http.get(this.standardUrl + '/allGameDefs')
+            .map(this.extractJson)
+            .catch(this.handleError);
+    };
+
     private extractStatus(res: Response) {
         //TODO: need to actually pull the status out of here
         return true;
