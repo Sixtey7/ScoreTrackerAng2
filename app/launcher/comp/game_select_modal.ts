@@ -47,7 +47,17 @@ export default class PromptGameSelection implements OnInit {
 
     handleResponse(_response: any) {
         console.log('got the response: ' +_response);
-        this._modal.close(_response);
+
+        let returnVal: string = '-1';
+        //find the matching game def to publish the id
+        for (let x: number = 0; x < this.allGameDefs.length; x++) {
+            if (this.allGameDefs[x].name === _response) {
+                returnVal = this.allGameDefs[x]._id;
+                break;
+            }
+        }
+
+        this._modal.close(returnVal);
     }
 }
 

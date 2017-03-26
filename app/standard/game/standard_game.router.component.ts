@@ -9,7 +9,7 @@ import StandardGameComponent from './standard_game.component';
 })
 @RouteConfig([
     {
-        path: '/new/:gameName',
+        path: '/new/:gameDefId',
         name: 'NewGame',
         component: StandardGameComponent,
         useAsDefault: true

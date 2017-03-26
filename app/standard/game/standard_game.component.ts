@@ -1,9 +1,17 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import StandardPlayerComponent from '../player/standard_player.component';
-import {Modal, Player, PromptUsername, ServerGame, ServerPlayer, GameList } from '../../shared/shared';
+import {
+    Modal, 
+    Player, 
+    PromptUsername, 
+    ServerGame, 
+    ServerPlayer, 
+    ServerGameDef,
+    GameList } from '../../shared/shared';
 import { Http } from '@angular/http';
 import { StandardService } from '../service/standard.service';
 import { RouteParams } from '@angular/router-deprecated';
+import { GameDefService } from '../../gamedefs/gamedefs';
 
 @Component({
     selector: 'standard-game',
@@ -15,11 +23,10 @@ import { RouteParams } from '@angular/router-deprecated';
 export default class StandardGameComponent implements OnInit {
     currentPlayers: Player[];
     gameId: string;
-    activeGameName: string;
-    private game: GameList;
+    activeGameDef: ServerGameDef;
     @ViewChild(Modal) modal;
 
-    constructor(private standardService: StandardService, private routeParams: RouteParams) {
+    constructor(private standardService: StandardService, private routeParams: RouteParams, private gameDefService: GameDefService) {
         this.currentPlayers = new Array<Player>();
     }
 
@@ -41,26 +48,23 @@ export default class StandardGameComponent implements OnInit {
         else {
             console.log('ngOnInit did not find a game id!');
 
-            let gameName = this.routeParams.params['gameName'];
-            if (gameName !== undefined) {
-                console.log('found the gamename : ' + gameName);
-                //this.game = GameList.fromReadableString(gameName);
-                this.game = GameList[gameName];
-                console.log('Built the game: ' + GameList.toReadableString(this.game));
-                this.activeGameName = GameList.allStrings()[gameName];
-                console.log('built the active game name: ' + this.activeGameName);
-                this.standardService.beginGame(this.game.toString())
+            let gameDefId = this.routeParams.params['gameDefId'];
+            if (gameDefId !== undefined) {
+                console.log('found the game def id : ' + gameDefId);
+                this.activeGameDef = this.gameDefService.getServerGameDef(gameDefId);
+                console.log('built the active game def: ' + JSON.stringify(this.activeGameDef));
+                this.standardService.beginGame(this.activeGameDef._id)
                     .subscribe(
                         response => {
                             this.extractGameId(response)
                         },
                         error => {
-                            console.error('Got an error attempting to start a new game of ' + GameList.toReadableString(this.game) + '\nerror');
+                            console.error('Got an error attempting to start a new game of ' + this.activeGameDef.name + '\nerror');
                         }
                     );
             }
             else {
-                console.error('No Route Id and No Game Name!')
+                console.error('No Route Id and No Game Def Id!')
             }
         }
     }
@@ -102,8 +106,8 @@ export default class StandardGameComponent implements OnInit {
 
     private loadGame(gameResponse: ServerGame) {
         this.gameId = gameResponse._id;
-        console.log('Setting activeGameName to: ' + GameList.allStrings()[gameResponse.game]);
-        this.activeGameName = GameList.allStrings()[gameResponse.game];
+        console.log('Setting activeGameName to: ' + GameList.allStrings()[gameResponse.gameDefId]);
+        this.activeGameDef = this.gameDefService.getServerGameDef(gameResponse.gameDefId);
 
         let playerIds: string[] = new Array<string>();
 

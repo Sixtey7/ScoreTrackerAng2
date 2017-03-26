@@ -3,7 +3,7 @@ import { GameList } from '../../shared/shared';
 
 export default class ServerGame {
     public _id: string;
-    public game: GameList;
+    public gameDefId: string;
     public playerResults: ServerPlayerResult[];
     public date: Date;
     public gameString;

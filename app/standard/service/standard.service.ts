@@ -16,13 +16,13 @@ export class StandardService {
                         .catch(this.handleError);
     }
 
-    beginGame(gameName: string): Observable<string> {
-        console.log('beginning a new game of ' + gameName + '!');
+    beginGame(gameDefId: string): Observable<string> {
+        console.log('beginning a new game with game def id: ' + gameDefId + '!');
 
         let options = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
 
         let params: URLSearchParams = new URLSearchParams();
-        params.set('gameName', gameName);
+        params.set('gameDefId', gameDefId);
         options.search = params;
         
         return this.http.put(this.standardUrl + '/begin', null, options)

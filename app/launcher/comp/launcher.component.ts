@@ -1,6 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { LauncherService } from '../service/launcher.service';
-import { GameList, Modal, ServerGame, ServerPlayer, ServerTotal } from '../../shared/shared';
+import { 
+    GameList, 
+    Modal, 
+    ServerGame, 
+    ServerPlayer, 
+    ServerTotal, 
+    ScoringType 
+} from '../../shared/shared';
 import { Router } from '@angular/router-deprecated';
 import PromptGameSelection from './game_select_modal';
 
@@ -42,7 +49,7 @@ export default class LauncherComponent implements OnInit {
         console.log(typeof response);
 
         for (let x: number = 0; x < response.length; x++) {
-            response[x].gameString = GameList.toReadableString(GameList[GameList[response[x].game]]);
+            response[x].gameString =  this.gameDefsService.getServerGameDef(response[x].gameDefId).name;
             this.allGames.push(response[x]);
         }
         
@@ -51,7 +58,7 @@ export default class LauncherComponent implements OnInit {
     launchGame(game: ServerGame) {
         console.log('consoling the id: ' + game._id);
 
-        if (game.game == GameList.AGRICOLA) {
+        if (this.gameDefsService.getServerGameDef(game.gameDefId).scoringType === ScoringType.AGRICOLA) {
             this.router.navigate(['AgricolaGameRouterComponent', 'ResumeGame', { id: game._id}]);
         }
         else {
@@ -68,16 +75,16 @@ export default class LauncherComponent implements OnInit {
         this.modal.open(PromptGameSelection); 
     }
 
-    startNewGame(_gameName: string) {
-        console.log('Got the response: ' + _gameName);
-        console.log('Created the enum: ' + GameList.fromReadableString(_gameName).toString());
-        let game: GameList = GameList.fromReadableString(_gameName);
-        if (game === GameList.AGRICOLA) {
+    startNewGame(_gameDefId: string) {
+        console.log('Got the game def id: ' + _gameDefId);
+        if (this.gameDefsService.getServerGameDef(_gameDefId).scoringType === ScoringType.AGRICOLA) {
             //Agricola has its own game
+            console.log('Determine the user wants to start an agricola scoring game!');
             this.router.navigate(['AgricolaGameRouterComponent', 'NewGame']);
         }
         else {
-            this.router.navigate(['StandardGameRouterComponent', 'NewGame', { gameName: game.toString()}]);
+            console.log('Determined the user wants to start a standard scoring game!');
+            this.router.navigate(['StandardGameRouterComponent', 'NewGame', { gameDefId: _gameDefId}]);
         }
     }
 
