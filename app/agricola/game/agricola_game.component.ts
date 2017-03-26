@@ -11,7 +11,7 @@ import { PlayerService } from '../../players/players';
 @Component({
     selector: 'agricola-game',
     directives: [ AgricolaPlayerComponent, Modal ],
-    providers: [ AgricolaService, PlayerService ],
+    providers: [ AgricolaService ],
     styleUrls: [ 'app/style/app.style.css', 'app/agricola/game/agricola_game.component.css' ],
     templateUrl: 'app/agricola/game/agricola_game.component.html'
 })

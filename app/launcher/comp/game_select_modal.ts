@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import { Modal, GameList } from '../../shared/shared';
+import { Modal, GameList, ServerGameDef } from '../../shared/shared';
+
+import { GameDefService } from '../../gamedefs/gamedefs';
 
 @Component({
     selector: 'prompt-game',
@@ -8,8 +10,8 @@ import { Modal, GameList } from '../../shared/shared';
         <div class="form-group">
             <input class="form-control" list="gameList" #response name="gameName">
             <datalist id="gameList">
-                <option *ngFor = "let gameEnumItem of enumList">
-                    {{ gameEnumItem }}
+                <option *ngFor = "let thisGameDef of allGameDefs">
+                    {{ thisGameDef.name }}
                 </option>
             </datalist>
         </div>
@@ -19,14 +21,26 @@ import { Modal, GameList } from '../../shared/shared';
         </div>
     `,
     styles: ['.custom_btn {width: 49%; height: 40px; padding: 10px 12px; }'],
+    providers: [],
     directives: [Modal]
 })
-export default class PromptGameSelection {
+export default class PromptGameSelection implements OnInit {
 
-    private enumList: string[];
-    constructor(public _modal: Modal) {
-        this.enumList = GameList.allStrings();
+    private allGameDefs: ServerGameDef[];
+    constructor(public _modal: Modal, private gameDefService: GameDefService) {
+        //this.enumList = GameList.allStrings();
+        this.allGameDefs = this.gameDefService.getAllGameDefs();
     }
+
+    ngOnInit(): void {
+        console.log('modal running ngoninit!');
+
+        this.allGameDefs = this.gameDefService.getAllGameDefs();
+
+        console.log('setting all game defs to:\n' + JSON.stringify(this.allGameDefs));
+    }
+
+
     close() {
         this._modal.close();
     }

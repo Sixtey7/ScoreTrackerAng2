@@ -6,6 +6,14 @@ import {
     ROUTER_DIRECTIVES,
     Router
 } from '@angular/router-deprecated';
+
+import {
+    GameDefService
+} from './gamedefs/gamedefs'
+import {
+    PlayerService
+} from './players/players';
+
 import './rxjs-operators';
 
 
@@ -16,7 +24,7 @@ import { LauncherComponent }  from './launcher/launcher';
 @Component({
     selector: 'score-tracking-app',
     directives: [ROUTER_DIRECTIVES, AgricolaGameRouterComponent],
-    providers: [HTTP_PROVIDERS, ROUTER_PROVIDERS],
+    providers: [HTTP_PROVIDERS, ROUTER_PROVIDERS, GameDefService, PlayerService],
     templateUrl: 'app/app.component.html'
 })
 @RouteConfig([

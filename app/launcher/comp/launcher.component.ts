@@ -5,12 +5,13 @@ import { Router } from '@angular/router-deprecated';
 import PromptGameSelection from './game_select_modal';
 
 import { PlayerService } from '../../players/players';
+import { GameDefService } from '../../gamedefs/gamedefs';
 
 
 @Component({
     selector: 'launcher-component',
     directives: [ Modal ],
-    providers: [LauncherService, PlayerService],
+    providers: [LauncherService],
     styleUrls: [ 'app/style/app.style.css', 'app/launcher/comp/launcher.component.css'],
     templateUrl: 'app/launcher/comp/launcher.component.html'
 })
@@ -20,7 +21,7 @@ export default class LauncherComponent implements OnInit {
 
     @ViewChild(Modal) modal;
 
-    constructor(private launcherService: LauncherService, private router: Router, private playerService: PlayerService) {
+    constructor(private launcherService: LauncherService, private router: Router, private playerService: PlayerService, private gameDefsService: GameDefService) {
         this.allGames = new Array<ServerGame>();
         this.allPlayers = {};
     }
