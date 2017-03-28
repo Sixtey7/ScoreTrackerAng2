@@ -15,14 +15,8 @@ export default class AgricolaService {
 
     beginGame(): Observable<string> {
         console.log('beginning a new game of agricola!');
-        
-        let options: RequestOptions = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
 
-        let params: URLSearchParams = new URLSearchParams();
-        params.set('gameName', GameList.AGRICOLA.toString());
-        options.search = params;
-
-        return this.http.put(this.agricolaUrl + '/begin', null, options)
+        return this.http.put(this.agricolaUrl + '/begin', null)
             .map(this.extractString)
             .catch(this.handleError);
     }
