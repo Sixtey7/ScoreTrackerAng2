@@ -36,7 +36,6 @@ export default class LauncherComponent implements OnInit {
     ngOnInit(): void {
         this.launcherService.getAllGames()
             .subscribe(
-                //TODO: this service call should probably not return all players now
                 response => {
                     this.extractAllGames(response.gameResults);
                 },
