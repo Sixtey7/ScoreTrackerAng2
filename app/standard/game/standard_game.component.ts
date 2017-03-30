@@ -24,6 +24,7 @@ export default class StandardGameComponent implements OnInit {
     currentPlayers: Player[];
     gameId: string;
     activeGameDef: ServerGameDef;
+    activeGameDefName: string;
     @ViewChild(Modal) modal;
 
     constructor(private standardService: StandardService, private routeParams: RouteParams, private gameDefService: GameDefService) {
@@ -51,7 +52,7 @@ export default class StandardGameComponent implements OnInit {
             let gameDefId = this.routeParams.params['gameDefId'];
             if (gameDefId !== undefined) {
                 console.log('found the game def id : ' + gameDefId);
-                this.activeGameDef = this.gameDefService.getServerGameDef(gameDefId);
+                this.setActiveGameDef(gameDefId);
                 console.log('built the active game def: ' + JSON.stringify(this.activeGameDef));
                 this.standardService.beginGame(this.activeGameDef._id)
                     .subscribe(
@@ -106,9 +107,8 @@ export default class StandardGameComponent implements OnInit {
 
     private loadGame(gameResponse: ServerGame) {
         this.gameId = gameResponse._id;
-        console.log('Setting activeGameName to: ' + GameList.allStrings()[gameResponse.gameDefId]);
-        this.activeGameDef = this.gameDefService.getServerGameDef(gameResponse.gameDefId);
-
+        console.log('Got the game def id: ' + gameResponse.gameDefId);
+        this.setActiveGameDef(gameResponse.gameDefId);
         let playerIds: string[] = new Array<string>();
 
         for (let x: number = 0; x < gameResponse.playerResults.length; x++) {
@@ -149,5 +149,10 @@ export default class StandardGameComponent implements OnInit {
             error => {
                 console.error('Got the error from saving: ' + error);
             });
+    }
+
+    private setActiveGameDef(_serverGameDefId: string) {
+        this.activeGameDef = this.gameDefService.getServerGameDef(_serverGameDefId);
+        this.activeGameDefName = this.activeGameDef.name;
     }
 }
