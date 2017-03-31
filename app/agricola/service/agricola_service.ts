@@ -13,10 +13,16 @@ export default class AgricolaService {
 
     constructor(private http: Http) {}
 
-    beginGame(): Observable<string> {
-        console.log('beginning a new game of agricola!');
+    beginGame(gameDefId: string): Observable<string> {
+        console.log('beginning a new game with game def id: ' + gameDefId + ' of score type agricola!');
 
-        return this.http.put(this.agricolaUrl + '/begin', null)
+        let options: RequestOptions = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
+
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('gameDefId', gameDefId);
+        options.search = params;
+
+        return this.http.put(this.agricolaUrl + '/begin', null, options)
             .map(this.extractString)
             .catch(this.handleError);
     }

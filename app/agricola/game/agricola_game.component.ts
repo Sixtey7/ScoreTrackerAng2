@@ -2,11 +2,18 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import AgricolaPlayerComponent from '../player/agricola_player.component';
 import { AgricolaServerPlayerResult, AgricolaPlayer }from '../agricola';
 import AgricolaService from '../service/agricola_service';
-import { GameList ,Modal, PromptUsername, ServerGame, ServerPlayer } from '../../shared/shared';
+import { 
+    GameList ,
+    Modal, 
+    PromptUsername, 
+    ServerGame, 
+    ServerPlayer,
+    ServerGameDef } from '../../shared/shared';
 import { RouteParams} from '@angular/router-deprecated';
 import { Http } from '@angular/http';
 import { AgricolaServerGame } from '../agricola';
 import { PlayerService } from '../../players/players';
+import { GameDefService } from '../../gamedefs/gamedefs';
 
 @Component({
     selector: 'agricola-game',
@@ -19,9 +26,11 @@ export default class AgricolaGameComponent implements OnInit {
     currentPlayers: AgricolaPlayer[];
     gameId: string;
     navBarTitle = 'Agricola Game';
+    activeGameDef: ServerGameDef;
+    activeGameDefName: string;
     @ViewChild(Modal) modal;
 
-    constructor(private agricolaService: AgricolaService, private routeParams: RouteParams, private playerService: PlayerService) {
+    constructor(private agricolaService: AgricolaService, private routeParams: RouteParams, private playerService: PlayerService, private gameDefService: GameDefService) {
         this.currentPlayers = new Array<AgricolaPlayer>();
     }
 
@@ -43,10 +52,19 @@ export default class AgricolaGameComponent implements OnInit {
         else { 
             console.log('ngOninit did not find a game id');
 
-            this.agricolaService.beginGame()
+            let gameDefId = this.routeParams.params['gameDefId'];
+            if (gameDefId !== undefined) {
+                console.log('Found the game def id: ' + gameDefId);
+                this.setActiveGameDef(gameDefId);
+
+                this.agricolaService.beginGame(this.activeGameDef._id)
                     .subscribe(
                         response => this.extractGameId(response),
                         error => console.log('ERROR: ' + error));
+            }
+            else {
+                console.error('No Route Id and No Game Def Id!');
+            }
         }
         
     }
@@ -128,5 +146,10 @@ export default class AgricolaGameComponent implements OnInit {
             });
 
         console.log('Have the following in the collection\n' + JSON.stringify(this.currentPlayers));
+    }
+
+    private setActiveGameDef(_serverGameDefId: string) {
+        this.activeGameDef = this.gameDefService.getServerGameDef(_serverGameDefId);
+        this.activeGameDefName = this.activeGameDef.name;
     }
 }
