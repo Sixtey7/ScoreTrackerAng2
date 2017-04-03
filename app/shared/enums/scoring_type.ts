@@ -1,6 +1,6 @@
 enum ScoringType {
     AGRICOLA,
-    STANDARD
+    PLAYER_SCORE
 }
 
 namespace ScoringType {
@@ -9,7 +9,7 @@ namespace ScoringType {
             case "AGRICOLA":
                 return ScoringType.AGRICOLA;
             default:
-                return ScoringType.STANDARD;
+                return ScoringType.PLAYER_SCORE;
         }
     }
 
@@ -26,7 +26,7 @@ namespace ScoringType {
         let returnString: string[] = new Array<string>();
 
         returnString.push(ScoringType.toReadableString(ScoringType.AGRICOLA));
-        returnString.push(ScoringType.toReadableString(ScoringType.STANDARD));
+        returnString.push(ScoringType.toReadableString(ScoringType.PLAYER_SCORE));
 
         return returnString;
     }
