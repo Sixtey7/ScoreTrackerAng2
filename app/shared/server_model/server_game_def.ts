@@ -5,5 +5,5 @@ export default class ServerGameDef {
     public _id: string;
     public name: string;
     public scoringType: ScoringType;
-    public expansion: ServerGameDefExpansion[];
+    public expansions: ServerGameDefExpansion[];
 }

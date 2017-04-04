@@ -15,8 +15,13 @@ import { GameDefService } from '../../gamedefs/gamedefs';
                 </option>
             </datalist>
         </div>
-        <!--div class="form-group">
-            <p *ngFor = "let thisExpansion of -->
+        <div class="form-group">
+            <div *ngIf = "currGameDef">
+                <p *ngFor = "let thisExpansion of currGameDef.expansions">
+                    {{ thisExpansion.name }}
+                </p>
+            </div>
+        </div>
         <div class="form-group">
             <button type="submit" (click)="handleResponse(response.value)" class="btn btn-primary custom-btn">Play!</button>
             <button type="submit" (click)="close()" class="btn btn-primary custom-btn">Cancel</button>
@@ -30,11 +35,13 @@ export default class PromptGameSelection implements OnInit {
 
     private allGameDefs: ServerGameDef[];
     private currValue: string;
+    private currGameDef: ServerGameDef;
     constructor(public _modal: Modal, private gameDefService: GameDefService) {
-        //this.enumList = GameList.allStrings();
         this.allGameDefs = this.gameDefService.getAllGameDefs();
 
         this.currValue = "";
+        this.currGameDef = null;
+
     }
 
     ngOnInit(): void {
@@ -73,6 +80,8 @@ export default class PromptGameSelection implements OnInit {
             if (this.allGameDefs[x].name === upperCaseNewValue) {
                 //TODO: need to now handle this value
                 console.log("FOUND A MATCH: " + upperCaseNewValue);
+                this.currGameDef = this.allGameDefs[x];
+                break;
             }
         }
     }
