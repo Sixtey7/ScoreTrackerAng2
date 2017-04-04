@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 
 import { Modal, GameList, ServerGameDef } from '../../shared/shared';
 
@@ -8,13 +8,15 @@ import { GameDefService } from '../../gamedefs/gamedefs';
     selector: 'prompt-game',
     template: `
         <div class="form-group">
-            <input class="form-control" list="gameList" #response name="gameName">
-            <datalist id="gameList">
-                <option *ngFor = "let thisGameDef of allGameDefs">
+            <input class="form-control" list="gameList" #response name="gameName" (change)="onChange($event)">
+            <datalist id="gameList" (change)="onChange()">
+                <option *ngFor = "let thisGameDef of allGameDefs" (change)="onChange()">
                     {{ thisGameDef.name }}
                 </option>
             </datalist>
         </div>
+        <!--div class="form-group">
+            <p *ngFor = "let thisExpansion of -->
         <div class="form-group">
             <button type="submit" (click)="handleResponse(response.value)" class="btn btn-primary custom-btn">Play!</button>
             <button type="submit" (click)="close()" class="btn btn-primary custom-btn">Cancel</button>
@@ -24,7 +26,7 @@ import { GameDefService } from '../../gamedefs/gamedefs';
     providers: [],
     directives: [Modal]
 })
-export default class PromptGameSelection implements OnInit {
+export default class PromptGameSelection implements OnInit, OnChanges {
 
     private allGameDefs: ServerGameDef[];
     constructor(public _modal: Modal, private gameDefService: GameDefService) {
@@ -58,6 +60,14 @@ export default class PromptGameSelection implements OnInit {
         }
 
         this._modal.close(returnVal);
+    }
+
+    private onChange(newValue) {
+        console.log("ON ChANGE");
+    }
+
+    ngOnChanges(hello) {
+        console.log("NG ON CHANGES");
     }
 }
 
