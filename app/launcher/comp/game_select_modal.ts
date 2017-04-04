@@ -8,7 +8,7 @@ import { GameDefService } from '../../gamedefs/gamedefs';
     selector: 'prompt-game',
     template: `
         <div class="form-group">
-            <input class="form-control" list="gameList" #response name="gameName" (change)="onChange($event)">
+            <input [ngModel] = "currValue" class="form-control" list="gameList" #response name="gameName" (ngModelChange)="onChange($event)">
             <datalist id="gameList" (change)="onChange()">
                 <option *ngFor = "let thisGameDef of allGameDefs" (change)="onChange()">
                     {{ thisGameDef.name }}
@@ -26,12 +26,15 @@ import { GameDefService } from '../../gamedefs/gamedefs';
     providers: [],
     directives: [Modal]
 })
-export default class PromptGameSelection implements OnInit, OnChanges {
+export default class PromptGameSelection implements OnInit {
 
     private allGameDefs: ServerGameDef[];
+    private currValue: string;
     constructor(public _modal: Modal, private gameDefService: GameDefService) {
         //this.enumList = GameList.allStrings();
         this.allGameDefs = this.gameDefService.getAllGameDefs();
+
+        this.currValue = "";
     }
 
     ngOnInit(): void {
@@ -64,10 +67,14 @@ export default class PromptGameSelection implements OnInit, OnChanges {
 
     private onChange(newValue) {
         console.log("ON ChANGE");
-    }
-
-    ngOnChanges(hello) {
-        console.log("NG ON CHANGES");
+        let upperCaseNewValue = newValue.toUpperCase();
+        //TODO: Some easy caching here could make this faster
+        for (let x: number = 0; x < this.allGameDefs.length; x++) {
+            if (this.allGameDefs[x].name === upperCaseNewValue) {
+                //TODO: need to now handle this value
+                console.log("FOUND A MATCH: " + upperCaseNewValue);
+            }
+        }
     }
 }
 
