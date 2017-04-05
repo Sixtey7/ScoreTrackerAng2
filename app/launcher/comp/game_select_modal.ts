@@ -17,9 +17,12 @@ import { GameDefService } from '../../gamedefs/gamedefs';
         </div>
         <div class="form-group">
             <div *ngIf = "currGameDef">
-                <p *ngFor = "let thisExpansion of currGameDef.expansions">
-                    {{ thisExpansion.name }}
-                </p>
+                <div *ngFor = "let thisExpansion of currGameDef.expansions" class="checkbox checkbox-single">
+                    <label>
+                        <input type="checkbox" value="">
+                        {{ thisExpansion.name }}
+                    </label>
+                </div>
             </div>
         </div>
         <div class="form-group">
