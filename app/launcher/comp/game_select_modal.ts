@@ -16,21 +16,25 @@ import { GameDefService } from '../../gamedefs/gamedefs';
             </datalist>
         </div>
         <div class="form-group">
-            <div *ngIf = "currGameDef">
-                <div *ngFor = "let thisExpansion of currGameDef.expansions" class="checkbox checkbox-single">
+            <!--div *ngIf = "currGameDef"-->
+                <!--div class="checkbox" *ngFor = "let thisExpansion of currGameDef.expansions">
                     <label>
-                        <input type="checkbox" value="">
-                        {{ thisExpansion.name }}
+                        <input type="checkbox" name="isActive"  [(ngModel)]="user.isActive">
+                            <span>Is Active
                     </label>
+                </div-->
+                <div *ngFor="let thisExpansion of currGameDef.expansions">
+                    <label class="checkbox"><input type="checkbox" ng-model = "boxChecked"><span>{{thisExpansion.name}}</span></label>
                 </div>
-            </div>
+            <!--/div-->
         </div>
         <div class="form-group">
             <button type="submit" (click)="handleResponse(response.value)" class="btn btn-primary custom-btn">Play!</button>
             <button type="submit" (click)="close()" class="btn btn-primary custom-btn">Cancel</button>
         </div>
     `,
-    styles: ['.custom_btn {width: 49%; height: 40px; padding: 10px 12px; }'],
+    styles: ['.custom_btn {width: 49%; height: 40px; padding: 10px 12px; }', 'input[type=checkbox] + span { color: #ccc; font-style: italic; }',
+                'input[type=checkbox]:checked + span { color: #00f; font-style: normal; font-weight: bold;}'],
     providers: [],
     directives: [Modal]
 })
@@ -39,11 +43,14 @@ export default class PromptGameSelection implements OnInit {
     private allGameDefs: ServerGameDef[];
     private currValue: string;
     private currGameDef: ServerGameDef;
+    private boxChecked: boolean = false;
     constructor(public _modal: Modal, private gameDefService: GameDefService) {
         this.allGameDefs = this.gameDefService.getAllGameDefs();
 
         this.currValue = "";
-        this.currGameDef = null;
+        this.currGameDef = this.allGameDefs[1];
+
+        this.boxChecked = true;
 
     }
 
