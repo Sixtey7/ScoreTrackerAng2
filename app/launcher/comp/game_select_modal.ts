@@ -16,17 +16,11 @@ import { GameDefService } from '../../gamedefs/gamedefs';
             </datalist>
         </div>
         <div class="form-group">
-            <!--div *ngIf = "currGameDef"-->
-                <!--div class="checkbox" *ngFor = "let thisExpansion of currGameDef.expansions">
-                    <label>
-                        <input type="checkbox" name="isActive"  [(ngModel)]="user.isActive">
-                            <span>Is Active
-                    </label>
-                </div-->
+            <div *ngIf = "currGameDef">
                 <div *ngFor="let thisExpansion of currGameDef.expansions">
-                    <label class="checkbox"><input type="checkbox" ng-model = "boxChecked"><span>{{thisExpansion.name}}</span></label>
+                    <label class="checkbox"><input type="checkbox" [(ngModel)] = "currCheckboxes[thisExpansion._id]"><span>{{thisExpansion.name}}</span></label>
                 </div>
-            <!--/div-->
+            </div>
         </div>
         <div class="form-group">
             <button type="submit" (click)="handleResponse(response.value)" class="btn btn-primary custom-btn">Play!</button>
@@ -42,15 +36,14 @@ export default class PromptGameSelection implements OnInit {
 
     private allGameDefs: ServerGameDef[];
     private currValue: string;
+    private currCheckboxes: string[];
     private currGameDef: ServerGameDef;
-    private boxChecked: boolean = false;
     constructor(public _modal: Modal, private gameDefService: GameDefService) {
         this.allGameDefs = this.gameDefService.getAllGameDefs();
 
         this.currValue = "";
         this.currGameDef = this.allGameDefs[1];
-
-        this.boxChecked = true;
+        this.currCheckboxes = new Array<string>();
 
     }
 
@@ -75,6 +68,11 @@ export default class PromptGameSelection implements OnInit {
         for (let x: number = 0; x < this.allGameDefs.length; x++) {
             if (this.allGameDefs[x].name === _response) {
                 returnVal = this.allGameDefs[x]._id;
+                if (this.allGameDefs[x].expansions.length > 0) {
+                    for (let y: number = 0; y < this.allGameDefs[x].expansions.length; y++) {
+                        console.log('Value for expansion: ' + this.allGameDefs[x].expansions[y].name + ' is: ' + this.currCheckboxes[this.allGameDefs[x].expansions[y]._id]);
+                    }
+                }
                 break;
             }
         }
