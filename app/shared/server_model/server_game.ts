@@ -7,6 +7,7 @@ export default class ServerGame {
     public playerResults: ServerPlayerResult[];
     public date: Date;
     public gameString;
+    public expansions: string[];
 
     constructor() {
         console.log('Running constructor');

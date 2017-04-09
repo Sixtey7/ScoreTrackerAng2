@@ -1,6 +1,6 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
 
-import { Modal, GameList, ServerGameDef } from '../../shared/shared';
+import { Modal, GameList, ServerGameDef, ServerGame } from '../../shared/shared';
 
 import { GameDefService } from '../../gamedefs/gamedefs';
 
@@ -36,14 +36,14 @@ export default class PromptGameSelection implements OnInit {
 
     private allGameDefs: ServerGameDef[];
     private currValue: string;
-    private currCheckboxes: string[];
+    private currCheckboxes: {[key: string]: boolean};
     private currGameDef: ServerGameDef;
     constructor(public _modal: Modal, private gameDefService: GameDefService) {
         this.allGameDefs = this.gameDefService.getAllGameDefs();
 
         this.currValue = "";
         this.currGameDef = this.allGameDefs[1];
-        this.currCheckboxes = new Array<string>();
+        this.currCheckboxes = {};
 
     }
 
@@ -63,14 +63,20 @@ export default class PromptGameSelection implements OnInit {
     handleResponse(_response: any) {
         console.log('got the response: ' +_response);
 
-        let returnVal: string = '-1';
+        let returnVal: ServerGame;
         //find the matching game def to publish the id
         for (let x: number = 0; x < this.allGameDefs.length; x++) {
             if (this.allGameDefs[x].name === _response) {
-                returnVal = this.allGameDefs[x]._id;
+                returnVal = new ServerGame();
+                returnVal.date = new Date();
+                returnVal.gameDefId = this.allGameDefs[x]._id;
+                returnVal.expansions = new Array<string>();
                 if (this.allGameDefs[x].expansions.length > 0) {
                     for (let y: number = 0; y < this.allGameDefs[x].expansions.length; y++) {
                         console.log('Value for expansion: ' + this.allGameDefs[x].expansions[y].name + ' is: ' + this.currCheckboxes[this.allGameDefs[x].expansions[y]._id]);
+                        if (this.currCheckboxes[this.allGameDefs[x].expansions[y]._id]) {
+                            returnVal.expansions.push(this.allGameDefs[x].expansions[y]._id);
+                        }
                     }
                 }
                 break;

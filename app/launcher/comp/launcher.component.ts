@@ -74,16 +74,17 @@ export default class LauncherComponent implements OnInit {
         this.modal.open(PromptGameSelection); 
     }
 
-    startNewGame(_gameDefId: string) {
-        console.log('Got the game def id: ' + _gameDefId);
-        if (this.gameDefsService.getServerGameDef(_gameDefId).scoringType === ScoringType.AGRICOLA) {
+    startNewGame(_gameToStart: ServerGame) {
+        console.log('Got the game to start: ' + JSON.stringify(_gameToStart));
+        //TODO: fix this
+        if (this.gameDefsService.getServerGameDef(_gameToStart.gameDefId).scoringType === ScoringType.AGRICOLA) {
             //Agricola has its own game
             console.log('Determine the user wants to start an agricola scoring game!');
             this.router.navigate(['AgricolaGameRouterComponent', 'NewGame']);
         }
         else {
             console.log('Determined the user wants to start a standard scoring game!');
-            this.router.navigate(['StandardGameRouterComponent', 'NewGame', { gameDefId: _gameDefId}]);
+            this.router.navigate(['StandardGameRouterComponent', 'NewGame', { gameDefId: _gameToStart.gameDefId}]);
         }
     }
 
