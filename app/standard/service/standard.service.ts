@@ -16,7 +16,7 @@ export class StandardService {
                         .catch(this.handleError);
     }
 
-    beginGame(gameDefId: string): Observable<string> {
+    beginGameOld(gameDefId: string): Observable<string> {
         console.log('beginning a new game with game def id: ' + gameDefId + '!');
 
         let options = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
@@ -28,6 +28,17 @@ export class StandardService {
         return this.http.put(this.standardUrl + '/begin', null, options)
                         .map(this.extractString)
                         .catch(this.handleError);
+    }
+
+    beginGame(gameToStart: ServerGame): Observable<string> {
+        console.log('beginning a new game with: ' + JSON.stringify(gameToStart));
+
+
+        return this.http.put(this.standardUrl + '/begin', JSON.stringify(gameToStart), null)
+            .map(this.extractStatus)
+            .catch(this.handleError);
+
+
     }
 
     getGame(gameId: string): Observable<ServerGame> {

@@ -54,7 +54,8 @@ export default class StandardGameComponent implements OnInit {
                 console.log('found the game def id : ' + gameDefId);
                 this.setActiveGameDef(gameDefId);
                 console.log('built the active game def: ' + JSON.stringify(this.activeGameDef));
-                this.standardService.beginGame(this.activeGameDef._id)
+                //TODO: Fix
+                this.standardService.beginGameOld(this.activeGameDef._id)
                     .subscribe(
                         response => {
                             this.extractGameId(response)
