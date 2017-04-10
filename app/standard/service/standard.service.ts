@@ -30,7 +30,7 @@ export class StandardService {
                         .catch(this.handleError);
     }
 
-    beginGame(gameToStart: ServerGame): Observable<string> {
+    beginGame(gameToStart: ServerGame): Observable<ServerGame> {
         console.log('beginning a new game with: ' + JSON.stringify(gameToStart));
 
 
