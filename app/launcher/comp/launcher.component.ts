@@ -6,19 +6,21 @@ import {
     ServerGame, 
     ServerPlayer, 
     ServerTotal, 
-    ScoringType 
+    ScoringType,
 } from '../../shared/shared';
 import { Router } from '@angular/router-deprecated';
 import PromptGameSelection from './game_select_modal';
 
 import { PlayerService } from '../../players/players';
 import { GameDefService } from '../../gamedefs/gamedefs';
+import { StandardService } from '../../standard/standard';
+import { AgricolaService } from '../../agricola/agricola'
 
 
 @Component({
     selector: 'launcher-component',
     directives: [ Modal ],
-    providers: [LauncherService],
+    providers: [LauncherService, StandardService, AgricolaService],
     styleUrls: [ 'app/style/app.style.css', 'app/launcher/comp/launcher.component.css'],
     templateUrl: 'app/launcher/comp/launcher.component.html'
 })
@@ -28,7 +30,8 @@ export default class LauncherComponent implements OnInit {
 
     @ViewChild(Modal) modal;
 
-    constructor(private launcherService: LauncherService, private router: Router, private playerService: PlayerService, private gameDefsService: GameDefService) {
+    constructor(private launcherService: LauncherService, private standardService: StandardService, private agricolaService: AgricolaService, 
+            private router: Router, private playerService: PlayerService, private gameDefsService: GameDefService) {
         this.allGames = new Array<ServerGame>();
         this.allPlayers = {};
     }
@@ -84,6 +87,7 @@ export default class LauncherComponent implements OnInit {
         }
         else {
             console.log('Determined the user wants to start a standard scoring game!');
+            this.standardService.beginGame(_gameToStart);
             this.router.navigate(['StandardGameRouterComponent', 'NewGame', { gameDefId: _gameToStart.gameDefId}]);
         }
     }

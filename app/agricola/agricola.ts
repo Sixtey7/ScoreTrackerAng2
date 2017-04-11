@@ -5,7 +5,7 @@ import AgricolaScoreComponent from  './score/agricola_score.component';
 import AgricolaPlayerComponent from './player/agricola_player.component';
 import AgricolaGameComponent from './game/agricola_game.component';
 import AgricolaGameRouterComponent from './game/agricola_game.router.component';
-
+import AgricolaService from './service/agricola_service';
 export {
     AgricolaServerPlayerResult,
     AgricolaServerGame,
@@ -15,5 +15,6 @@ export {
     AgricolaScoreComponent,
     AgricolaPlayerComponent,
     AgricolaGameComponent,
-    AgricolaGameRouterComponent
+    AgricolaGameRouterComponent,
+    AgricolaService
 };
