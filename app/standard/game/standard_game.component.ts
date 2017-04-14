@@ -153,6 +153,7 @@ export default class StandardGameComponent implements OnInit {
     }
 
     private setActiveGameDef(_serverGameDefId: string) {
+        console.log('Setting the active game def for string value: ' + _serverGameDefId);
         this.activeGameDef = this.gameDefService.getServerGameDef(_serverGameDefId);
         this.activeGameDefName = this.activeGameDef.name;
     }

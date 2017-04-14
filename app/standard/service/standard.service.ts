@@ -33,8 +33,9 @@ export class StandardService {
     beginGame(gameToStart: ServerGame): Observable<string> {
         console.log('beginning a new game with: ' + JSON.stringify(gameToStart));
 
+        let options = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
 
-        return this.http.put(this.standardUrl + '/begin', JSON.stringify(gameToStart), null)
+        return this.http.put(this.standardUrl + '/begin', JSON.stringify(gameToStart), options)
             .map(this.extractString)
             .catch(this.handleError);
 
