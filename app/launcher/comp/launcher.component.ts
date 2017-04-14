@@ -88,12 +88,11 @@ export default class LauncherComponent implements OnInit {
         else {
             console.log('Determined the user wants to start a standard scoring game!');
             this.standardService.beginGame(_gameToStart)
-                .subscribe( createdGame => {
-                    this.router.navigate(['AgricolaGameRouterComponent', 'ResumeGame', { id: createdGame._id}]);
+                .subscribe( createdGameId => {
+                    this.router.navigate(['StandardGameRouterComponent', 'ResumeGame', { id: createdGameId}]);
                 }, err => {
                     console.error('Got an error attempting to create a new Standard Game:\n' + err);
                 });
-            this.router.navigate(['StandardGameRouterComponent', 'NewGame', { gameDefId: _gameToStart.gameDefId}]);
         }
     }
 
