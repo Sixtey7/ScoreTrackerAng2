@@ -80,12 +80,18 @@ export default class LauncherComponent implements OnInit {
     startNewGame(_gameToStart: ServerGame) {
         console.log('Got the game to start: ' + JSON.stringify(_gameToStart));
         //TODO: fix this
-        if (this.gameDefsService.getServerGameDef(_gameToStart.gameDefId).scoringType === ScoringType.AGRICOLA) {
+        if (this.gameDefsService.getServerGameDef(_gameToStart.gameDefId).scoringType == ScoringType.AGRICOLA) {
             //Agricola has its own game
             console.log('Determine the user wants to start an agricola scoring game!');
-            this.router.navigate(['AgricolaGameRouterComponent', 'NewGame']);
+            this.agricolaService.beginGame(_gameToStart)
+                .subscribe( createdGameId => {
+                    this.router.navigate(['AgricolaGameRouterComponent', 'ResumeGame', { id: createdGameId}]);
+                }, err => {
+                    console.error('Got an error attempting to create a new Agricola Game:\n' + err);
+                })
         }
         else {
+            console.log(this.gameDefsService.getServerGameDef(_gameToStart.gameDefId).scoringType + " DID NOT EQUAL " + ScoringType.toReadableString(ScoringType.AGRICOLA));
             console.log('Determined the user wants to start a standard scoring game!');
             this.standardService.beginGame(_gameToStart)
                 .subscribe( createdGameId => {

@@ -42,7 +42,7 @@ export default class PromptGameSelection implements OnInit {
         this.allGameDefs = this.gameDefService.getAllGameDefs();
 
         this.currValue = "";
-        this.currGameDef = this.allGameDefs[1];
+        this.currGameDef = null;
         this.currCheckboxes = {};
 
     }

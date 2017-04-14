@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { AgricolaServerGame, AgricolaServerPlayerResult, AgricolaPlayer } from '../agricola';
 
-import { GameList, ServerPlayer } from '../../shared/shared';
+import { GameList, ServerPlayer, ServerGame } from '../../shared/shared';
 
 @Injectable()
 export default class AgricolaService {
@@ -13,7 +13,7 @@ export default class AgricolaService {
 
     constructor(private http: Http) {}
 
-    beginGame(gameDefId: string): Observable<string> {
+    beginGameOld(gameDefId: string): Observable<string> {
         console.log('beginning a new game with game def id: ' + gameDefId + ' of score type agricola!');
 
         let options: RequestOptions = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
@@ -23,6 +23,17 @@ export default class AgricolaService {
         options.search = params;
 
         return this.http.put(this.agricolaUrl + '/begin', null, options)
+            .map(this.extractString)
+            .catch(this.handleError);
+    }
+
+    beginGame(gameToStart: ServerGame): Observable<string> {
+        //TODO: NOTE: ServerGame and AgricolaServerGame have the 
+        console.log('beginning a new game with: ' + JSON.stringify(gameToStart));
+
+        let options = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
+
+        return this.http.put(this.agricolaUrl + '/begin', JSON.stringify(gameToStart), options)
             .map(this.extractString)
             .catch(this.handleError);
     }
