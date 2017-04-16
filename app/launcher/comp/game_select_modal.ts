@@ -11,7 +11,8 @@ import { GameDefService } from '../../gamedefs/gamedefs';
             <div class="panel panel-default">
                 <div class="panel-heading">Date</div>
                 <div class="panel-body">
-                    <input type="date" class="datepicker" />
+<input [ngModel]="currDateString" (ngModelChange)="currDateString = $event" type="date" name="currDateString"/>
+
                 </div>
             </div>
             <!--h3>Date:</h3><input type="date" class="datepicker" /-->
@@ -20,12 +21,17 @@ import { GameDefService } from '../../gamedefs/gamedefs';
             <div class="panel panel-default">
                 <div class="panel-heading">Game</div>
                 <div class="panel-body">
-                    <input [ngModel] = "currValue" class="form-control" list="gameList" #response name="gameName" (ngModelChange)="onChange($event)">
-                    <datalist id="gameList" (change)="onChange()">
-                        <option *ngFor = "let thisGameDef of allGameDefs" (change)="onChange()">
-                            {{ thisGameDef.name }}
-                        </option>
-                    </datalist>
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle form-control" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            {{ currValue }}
+                            <span class="caret" style="float: right;"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li *ngFor = "let thisOtherGameDef of allGameDefs" (click)="dropdownChange(thisOtherGameDef)">
+                                {{ thisOtherGameDef.name }}
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -41,6 +47,7 @@ import { GameDefService } from '../../gamedefs/gamedefs';
                 </div>
             </div>
         </div>
+
         <div class="form-group">
             <button type="submit" (click)="handleResponse(response.value)" class="btn btn-primary custom-btn">Play!</button>
             <button type="submit" (click)="close()" class="btn btn-primary custom-btn">Cancel</button>
@@ -57,13 +64,18 @@ export default class PromptGameSelection implements OnInit {
     private currValue: string;
     private currCheckboxes: {[key: string]: boolean};
     private currGameDef: ServerGameDef;
+    private currDate: Date;
+    private currDateString;
     constructor(public _modal: Modal, private gameDefService: GameDefService) {
         this.allGameDefs = this.gameDefService.getAllGameDefs();
 
-        this.currValue = "";
+        this.currValue = "SELECT GAMe";
         this.currGameDef = null;
         this.currCheckboxes = {};
+        this.currDate = new Date();
+        console.log('curr date: ' + this.currDate);
 
+        this.currDateString = "2017-12-04";
     }
 
     ngOnInit(): void {
@@ -105,18 +117,13 @@ export default class PromptGameSelection implements OnInit {
         this._modal.close(returnVal);
     }
 
-    private onChange(newValue) {
-        console.log("ON ChANGE");
-        let upperCaseNewValue = newValue.toUpperCase();
-        //TODO: Some easy caching here could make this faster
-        for (let x: number = 0; x < this.allGameDefs.length; x++) {
-            if (this.allGameDefs[x].name === upperCaseNewValue) {
-                //TODO: need to now handle this value
-                console.log("FOUND A MATCH: " + upperCaseNewValue);
-                this.currGameDef = this.allGameDefs[x];
-                break;
-            }
-        }
+    private dropdownChange(newGameDef: ServerGameDef) {
+        this.currValue = newGameDef.name;
+        this.currGameDef = newGameDef;
+
+        this.currDate = new Date(this.currDateString);
+        console.log('curr date: ' + this.currDate);
+
     }
 }
 
