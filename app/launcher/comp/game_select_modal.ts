@@ -8,22 +8,38 @@ import { GameDefService } from '../../gamedefs/gamedefs';
     selector: 'prompt-game',
     template: `
         <div class="form-group">
-            <input [ngModel] = "currValue" class="form-control" list="gameList" #response name="gameName" (ngModelChange)="onChange($event)">
-            <datalist id="gameList" (change)="onChange()">
-                <option *ngFor = "let thisGameDef of allGameDefs" (change)="onChange()">
-                    {{ thisGameDef.name }}
-                </option>
-            </datalist>
+            <div class="panel panel-default">
+                <div class="panel-heading">Date</div>
+                <div class="panel-body">
+                    <input type="date" class="datepicker" />
+                </div>
+            </div>
+            <!--h3>Date:</h3><input type="date" class="datepicker" /-->
         </div>
         <div class="form-group">
-            <div *ngIf = "currGameDef">
-                <div *ngFor="let thisExpansion of currGameDef.expansions">
-                    <label class="checkbox"><input type="checkbox" [(ngModel)] = "currCheckboxes[thisExpansion._id]"><span>{{thisExpansion.name}}</span></label>
+            <div class="panel panel-default">
+                <div class="panel-heading">Game</div>
+                <div class="panel-body">
+                    <input [ngModel] = "currValue" class="form-control" list="gameList" #response name="gameName" (ngModelChange)="onChange($event)">
+                    <datalist id="gameList" (change)="onChange()">
+                        <option *ngFor = "let thisGameDef of allGameDefs" (change)="onChange()">
+                            {{ thisGameDef.name }}
+                        </option>
+                    </datalist>
                 </div>
             </div>
         </div>
         <div class="form-group">
-            <input type="date" class="datepicker" />
+            <div class="panel panel-default">
+                <div class="panel-heading">Expansions</div>
+                <div class="panel-body">
+                    <div *ngIf = "currGameDef">
+                        <div *ngFor="let thisExpansion of currGameDef.expansions">
+                            <label class="checkbox"><input type="checkbox" [(ngModel)] = "currCheckboxes[thisExpansion._id]"><span>{{thisExpansion.name}}</span></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="form-group">
             <button type="submit" (click)="handleResponse(response.value)" class="btn btn-primary custom-btn">Play!</button>
