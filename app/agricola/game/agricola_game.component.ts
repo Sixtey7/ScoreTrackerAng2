@@ -50,21 +50,7 @@ export default class AgricolaGameComponent implements OnInit {
                 )
         }
         else { 
-            console.log('ngOninit did not find a game id');
-
-            let gameDefId = this.routeParams.params['gameDefId'];
-            if (gameDefId !== undefined) {
-                console.log('Found the game def id: ' + gameDefId);
-                this.setActiveGameDef(gameDefId);
-
-                this.agricolaService.beginGame(this.activeGameDef._id)
-                    .subscribe(
-                        response => this.extractGameId(response),
-                        error => console.log('ERROR: ' + error));
-            }
-            else {
-                console.error('No Route Id and No Game Def Id!');
-            }
+            console.error('agricola game did not contain a gameId!');
         }
         
     }

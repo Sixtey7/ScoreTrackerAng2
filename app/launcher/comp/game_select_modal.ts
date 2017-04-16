@@ -23,6 +23,9 @@ import { GameDefService } from '../../gamedefs/gamedefs';
             </div>
         </div>
         <div class="form-group">
+            <input type="date" class="datepicker" />
+        </div>
+        <div class="form-group">
             <button type="submit" (click)="handleResponse(response.value)" class="btn btn-primary custom-btn">Play!</button>
             <button type="submit" (click)="close()" class="btn btn-primary custom-btn">Cancel</button>
         </div>
