@@ -4,6 +4,10 @@ import { Modal, GameList, ServerGameDef, ServerGame } from '../../shared/shared'
 
 import { GameDefService } from '../../gamedefs/gamedefs';
 
+//used to make $ acceptable to typescript
+declare var $:any;
+
+
 @Component({
     selector: 'prompt-game',
     template: `
@@ -11,8 +15,8 @@ import { GameDefService } from '../../gamedefs/gamedefs';
             <div class="panel panel-default">
                 <div class="panel-heading">Date</div>
                 <div class="panel-body">
-<input [ngModel]="currDateString" (ngModelChange)="currDateString = $event" type="date" name="currDateString"/>
-
+                    <input data-provide="datepicker" class="form-control" id="modal_date_picker" 
+                        value="{{(currDate.getMonth()+1) + '/' + currDate.getDate() + '/' + currDate.getFullYear()}}">
                 </div>
             </div>
             <!--h3>Date:</h3><input type="date" class="datepicker" /-->
@@ -65,7 +69,6 @@ export default class PromptGameSelection implements OnInit {
     private currCheckboxes: {[key: string]: boolean};
     private currGameDef: ServerGameDef;
     private currDate: Date;
-    private currDateString;
     constructor(public _modal: Modal, private gameDefService: GameDefService) {
         this.allGameDefs = this.gameDefService.getAllGameDefs();
 
@@ -73,9 +76,6 @@ export default class PromptGameSelection implements OnInit {
         this.currGameDef = null;
         this.currCheckboxes = {};
         this.currDate = new Date();
-        console.log('curr date: ' + this.currDate);
-
-        this.currDateString = "2017-12-04";
     }
 
     ngOnInit(): void {
@@ -84,8 +84,17 @@ export default class PromptGameSelection implements OnInit {
         this.allGameDefs = this.gameDefService.getAllGameDefs();
 
         console.log('setting all game defs to:\n' + JSON.stringify(this.allGameDefs));
-    }
 
+        //setup the date picker
+        $('#modal_date_picker').datepicker({
+            todayBtn: true,
+            todayHighlight: true,
+            autoclose: true,
+        })
+        .on('changeDate', function(e) {
+            this.currDate = e.date;
+        });;     
+    }
 
     close() {
         this._modal.close();
@@ -99,7 +108,7 @@ export default class PromptGameSelection implements OnInit {
         for (let x: number = 0; x < this.allGameDefs.length; x++) {
             if (this.allGameDefs[x].name === _response) {
                 returnVal = new ServerGame();
-                returnVal.date = new Date();
+                returnVal.date = this.currDate;
                 returnVal.gameDefId = this.allGameDefs[x]._id;
                 returnVal.expansions = new Array<string>();
                 if (this.allGameDefs[x].expansions.length > 0) {
@@ -120,10 +129,6 @@ export default class PromptGameSelection implements OnInit {
     private dropdownChange(newGameDef: ServerGameDef) {
         this.currValue = newGameDef.name;
         this.currGameDef = newGameDef;
-
-        this.currDate = new Date(this.currDateString);
-        console.log('curr date: ' + this.currDate);
-
     }
 }
 
