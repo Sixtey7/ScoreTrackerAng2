@@ -53,7 +53,7 @@ declare var $:any;
         </div>
 
         <div class="form-group">
-            <button type="submit" (click)="handleResponse(response.value)" class="btn btn-primary custom-btn">Play!</button>
+            <button type="submit" (click)="handleResponse()" class="btn btn-primary custom-btn">Play!</button>
             <button type="submit" (click)="close()" class="btn btn-primary custom-btn">Cancel</button>
         </div>
     `,
@@ -84,7 +84,9 @@ export default class PromptGameSelection implements OnInit {
         this.allGameDefs = this.gameDefService.getAllGameDefs();
 
         console.log('setting all game defs to:\n' + JSON.stringify(this.allGameDefs));
-
+        
+        //TODO: There has to be a better way than that = this here...
+        let that = this;
         //setup the date picker
         $('#modal_date_picker').datepicker({
             todayBtn: true,
@@ -92,21 +94,36 @@ export default class PromptGameSelection implements OnInit {
             autoclose: true,
         })
         .on('changeDate', function(e) {
-            this.currDate = e.date;
-        });;     
+            that.currDate = e.date;
+        });
     }
 
     close() {
         this._modal.close();
     }
 
-    handleResponse(_response: any) {
-        console.log('got the response: ' +_response);
-
+    handleResponse() {
         let returnVal: ServerGame;
+
+        console.log('curr date is: ' + this.currDate);
+
+        returnVal = new ServerGame();
+        returnVal.date = this.currDate;
+        returnVal.gameDefId = this.currGameDef._id;
+        returnVal.expansions = new Array<string>();
+        if (this.currGameDef.expansions.length > 0) {
+            for (let y: number = 0; y < this.currGameDef.expansions.length; y++) {
+                if (this.currCheckboxes[this.currGameDef.expansions[y]._id]) {
+                    returnVal.expansions.push(this.currGameDef.expansions[y]._id);
+                }
+            }
+        }
+
         //find the matching game def to publish the id
+        
+        /*
         for (let x: number = 0; x < this.allGameDefs.length; x++) {
-            if (this.allGameDefs[x].name === _response) {
+            if (this.allGameDefs[x].name === this.currGameDef.name) {
                 returnVal = new ServerGame();
                 returnVal.date = this.currDate;
                 returnVal.gameDefId = this.allGameDefs[x]._id;
@@ -122,6 +139,7 @@ export default class PromptGameSelection implements OnInit {
                 break;
             }
         }
+        */
 
         this._modal.close(returnVal);
     }
