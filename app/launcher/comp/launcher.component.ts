@@ -52,6 +52,7 @@ export default class LauncherComponent implements OnInit {
 
         for (let x: number = 0; x < response.length; x++) {
             response[x].gameString =  this.gameDefsService.getServerGameDef(response[x].gameDefId).name;
+            response[x].date = new Date(response[x].date);
             this.allGames.push(response[x]);
         }
         

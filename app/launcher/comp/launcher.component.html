@@ -10,7 +10,7 @@
     <tbody>
         <tr *ngFor = "let game of allGames; let i = index;">
             <td>{{ game.gameString }}</td>
-            <td>{{ game.date }}</td>
+            <td>{{ game.date | date: 'shortDate' }}</td>
             <td>
                 <div *ngFor = "let player of game.playerResults">
                     {{ playerForId(player.playerId) }} : {{ player.score }}
