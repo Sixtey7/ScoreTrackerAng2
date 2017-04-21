@@ -12,6 +12,8 @@ import { Http } from '@angular/http';
 import { StandardService } from '../service/standard.service';
 import { RouteParams } from '@angular/router-deprecated';
 import { GameDefService } from '../../gamedefs/gamedefs';
+import { Router } from '@angular/router-deprecated';
+
 
 @Component({
     selector: 'standard-game',
@@ -27,7 +29,7 @@ export default class StandardGameComponent implements OnInit {
     activeGameDefName: string;
     @ViewChild(Modal) modal;
 
-    constructor(private standardService: StandardService, private routeParams: RouteParams, private gameDefService: GameDefService) {
+    constructor(private standardService: StandardService, private routeParams: RouteParams, private gameDefService: GameDefService, private router: Router) {
         this.currentPlayers = new Array<Player>();
     }
 
@@ -150,6 +152,11 @@ export default class StandardGameComponent implements OnInit {
             error => {
                 console.error('Got the error from saving: ' + error);
             });
+    }
+
+    private goBack() {
+        console.log('The user selected to go back!');
+        this.router.navigate(['/LauncherComponent']);
     }
 
     private setActiveGameDef(_serverGameDefId: string) {

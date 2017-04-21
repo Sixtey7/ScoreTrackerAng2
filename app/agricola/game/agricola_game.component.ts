@@ -9,11 +9,12 @@ import {
     ServerGame, 
     ServerPlayer,
     ServerGameDef } from '../../shared/shared';
-import { RouteParams} from '@angular/router-deprecated';
+import { RouteParams, Router } from '@angular/router-deprecated';
 import { Http } from '@angular/http';
 import { AgricolaServerGame } from '../agricola';
 import { PlayerService } from '../../players/players';
 import { GameDefService } from '../../gamedefs/gamedefs';
+
 
 @Component({
     selector: 'agricola-game',
@@ -30,7 +31,7 @@ export default class AgricolaGameComponent implements OnInit {
     activeGameDefName: string;
     @ViewChild(Modal) modal;
 
-    constructor(private agricolaService: AgricolaService, private routeParams: RouteParams, private playerService: PlayerService, private gameDefService: GameDefService) {
+    constructor(private agricolaService: AgricolaService, private routeParams: RouteParams, private playerService: PlayerService, private gameDefService: GameDefService, private router: Router) {
         this.currentPlayers = new Array<AgricolaPlayer>();
     }
 
@@ -132,6 +133,11 @@ export default class AgricolaGameComponent implements OnInit {
             });
 
         console.log('Have the following in the collection\n' + JSON.stringify(this.currentPlayers));
+    }
+
+    private goBack() {
+        console.log('The user selected to go back!');
+        this.router.navigate(['/LauncherComponent']);  
     }
 
     private setActiveGameDef(_serverGameDefId: string) {
