@@ -51,8 +51,9 @@ export default class LauncherComponent implements OnInit {
         console.log(typeof response);
 
         for (let x: number = 0; x < response.length; x++) {
+            //TODO: This is wrong, but the type of date returned is actually a string (not a date), so need to build a date object
+            response[x].date = new Date(response[x].date + "");
             response[x].gameString =  this.gameDefsService.getServerGameDef(response[x].gameDefId).name;
-            response[x].date = new Date(response[x].date);
             this.allGames.push(response[x]);
         }
         
