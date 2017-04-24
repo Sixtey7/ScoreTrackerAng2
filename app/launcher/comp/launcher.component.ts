@@ -62,7 +62,8 @@ export default class LauncherComponent implements OnInit {
     launchGame(game: ServerGame) {
         console.log('consoling the id: ' + game._id);
 
-        if (this.gameDefsService.getServerGameDef(game.gameDefId).scoringType === ScoringType.AGRICOLA) {
+        if (this.gameDefsService.getServerGameDef(game.gameDefId).scoringType == ScoringType.AGRICOLA) {
+            console.log('loading an agricola game!');
             this.router.navigate(['AgricolaGameRouterComponent', 'ResumeGame', { id: game._id}]);
         }
         else {
