@@ -6,9 +6,8 @@ Contains an agricola score calculator and general score entry system
 
 ## Current Focus
 + Agricola
-+ Castles of Burgandy
-+ Carcassone
-+ Lords of Waterdeep
++ Games with built-in scoring systems (e.g. Carcassonne)
+++ In this case, this App is used for historical tracking
 
 ## Future Plan
 + Pandemic
