@@ -18,7 +18,7 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class GameDefService {
-    private gameDefUrl = 'http://localhost:30000/standard';
+    private gameDefUrl = 'http://localhost:30000/gamedefs';
 
     private allGameDefs: {[key: string]: ServerGameDef};
 

@@ -40,7 +40,7 @@ export default class LauncherComponent implements OnInit {
         this.launcherService.getAllGames()
             .subscribe(
                 response => {
-                    this.extractAllGames(response.gameResults);
+                    this.extractAllGames(response);
                 },
                 error => console.log('ERROR: ' + error));
     }

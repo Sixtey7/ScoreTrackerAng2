@@ -12,6 +12,7 @@ import { Http } from '@angular/http';
 import { StandardService } from '../service/standard.service';
 import { RouteParams } from '@angular/router-deprecated';
 import { GameDefService } from '../../gamedefs/gamedefs';
+import { PlayerService } from '../../players/players';
 import { Router } from '@angular/router-deprecated';
 
 
@@ -29,7 +30,7 @@ export default class StandardGameComponent implements OnInit {
     activeGameDefName: string;
     @ViewChild(Modal) modal;
 
-    constructor(private standardService: StandardService, private routeParams: RouteParams, private gameDefService: GameDefService, private router: Router) {
+    constructor(private standardService: StandardService, private routeParams: RouteParams, private gameDefService: GameDefService, private router: Router, private playerService: PlayerService) {
         this.currentPlayers = new Array<Player>();
     }
 
@@ -119,8 +120,7 @@ export default class StandardGameComponent implements OnInit {
         }
 
         if (playerIds.length > 0) {
-
-            this.standardService.getPlayers(playerIds)
+            this.playerService.getPlayers(playerIds)
                 .subscribe(
                     response => {
                         for (let y: number=0; y < response.length; y++) {

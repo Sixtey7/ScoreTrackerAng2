@@ -11,7 +11,7 @@ export class LauncherService {
 
     constructor(private http: Http) {}
 
-    getAllGames(): Observable<ServerTotal> {
+    getAllGames(): Observable<ServerGame[]> {
         return this.http.get(this.launcherUrl + '/summary')
             .map(this.extractJson)
             .catch(this.handleError);
